@@ -1,9 +1,9 @@
 'use client';
 import useDarkMode from 'use-dark-mode';
-import { Switch } from '@nextui-org/react';
+import { Switch } from '@nextui-org/switch';
 
-import { MoonIcon } from '@/icons/MoonIcon';
-import { SunIcon } from '@/icons/SunIcon';
+import MoonFillIcon from '@/icons/MoonFillIcon';
+import SunFillIcon from '@/icons/SunFillIcon';
 
 export default function ThemeSwitcher() {
     const darkMode = useDarkMode(true);
@@ -17,9 +17,9 @@ export default function ThemeSwitcher() {
                 color='secondary'
                 thumbIcon={({ isSelected, className }) =>
                     isSelected ? (
-                        <SunIcon className={className} />
+                        <SunFillIcon className={className} />
                     ) : (
-                        <MoonIcon className={className} />
+                        <MoonFillIcon className={className} />
                     )
                 }
             />
