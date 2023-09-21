@@ -1,7 +1,7 @@
 'use client';
 import useDarkMode from 'use-dark-mode';
 
-import { Providers } from './providers';
+import { Providers } from '../app/providers';
 
 import type { ChildrenContainer } from '@/types/common';
 

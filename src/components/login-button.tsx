@@ -46,7 +46,7 @@ export default function LoginButton() {
     return (
         <Button
             color='primary'
-            variant='bordered'
+            variant='flat'
             size='lg'
             startContent={icon}
             isLoading={loading}

@@ -1,19 +1,21 @@
 import { type ReactNode, type JSX, type SVGProps } from 'react';
 
-export type IconProps = JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>;
+export type SvgProps = JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>;
 
-export interface IconWrapperProps {
-    children: ReactNode;
-    props: IconProps;
+export interface IconProps extends SvgProps {
     viewBox?: string;
     size?: string;
 }
 
+export interface IconWrapperProps extends IconProps {
+    children: ReactNode;
+}
+
 export default function IconWrapper({
     children,
-    props,
     size = '1.2em',
     viewBox = '0 0 256 256',
+    ...props
 }: IconWrapperProps) {
     return (
         <svg
