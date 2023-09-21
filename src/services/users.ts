@@ -1,9 +1,9 @@
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, dbCollections } from '@/services/firebase';
 
-type UserId = {
+interface UserId {
     uid: string;
-};
+}
 
 export const readUserById = async ({ uid }: UserId) => {
     const usersDoc = doc(db, dbCollections.USERS, uid);

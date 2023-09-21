@@ -1,4 +1,4 @@
-import IconWrapper, { IconProps } from './icon-wrapper';
+import IconWrapper, { type IconProps } from './icon-wrapper';
 
 export default function SignOutBold(props: IconProps) {
     return (

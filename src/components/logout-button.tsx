@@ -6,7 +6,7 @@ import { Button } from '@nextui-org/button';
 
 import SignOutBoldIcon from '@/icons/sign-out-bold';
 
-const requestLogout = async (onFinished: Function) => {
+const requestLogout = async (onFinished: () => void) => {
     try {
         await fetch('/api/logout');
     } catch (error) {

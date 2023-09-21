@@ -9,7 +9,7 @@ import GoogleLogoIcon from '@/icons/google-logo';
 
 const googleAuthProvider = new GoogleAuthProvider();
 
-const requestLogin = async (onFinished: Function) => {
+const requestLogin = async (onFinished: () => void) => {
     try {
         const res = await signInWithPopup(auth, googleAuthProvider);
         const credential = GoogleAuthProvider.credentialFromResult(res);

@@ -1,5 +1,5 @@
-import { ReactNode, JSX, SVGProps } from 'react';
+import { type ReactNode } from 'react';
 
-export type ChildrenContainer = {
+export interface ChildrenContainer {
     children: ReactNode;
-};
+}

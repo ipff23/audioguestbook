@@ -1,10 +1,10 @@
 import { readUserByToken, storeSession } from '@/services/auth';
 import { createUser } from '@/services/users';
 
-type JsonResponse = {
+interface JsonResponse {
     status: number;
     data: any;
-};
+}
 
 const jsonResponse = ({ status, data }: JsonResponse) => {
     return new Response(JSON.stringify({ data }), {
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
         const { idToken } = await request.json();
 
         const user = await readUserByToken({ idToken });
-        const createdUser = await createUser({ uid: user.uid });
+        const createdUser = await createUser({ uid: user?.uid ?? '' });
 
         storeSession({ idToken });
 
