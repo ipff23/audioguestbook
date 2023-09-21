@@ -2,8 +2,8 @@
 import useDarkMode from 'use-dark-mode';
 import { Switch } from '@nextui-org/switch';
 
-import MoonFillIcon from '@/icons/MoonFillIcon';
-import SunFillIcon from '@/icons/SunFillIcon';
+import MoonFillIcon from '@/icons/moon-fill';
+import SunFillIcon from '@/icons/sun-fill';
 
 export default function ThemeSwitcher() {
     const darkMode = useDarkMode(true);

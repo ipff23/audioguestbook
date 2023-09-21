@@ -5,14 +5,21 @@ export type IconProps = JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>;
 export type IconWrapperProps = {
     children: ReactNode;
     props: IconProps;
+    viewBox?: string;
+    size?: string;
 };
 
-export default function IconWrapper({ children, props }: IconWrapperProps) {
+export default function IconWrapper({
+    children,
+    props,
+    size = '1.2em',
+    viewBox = '0 0 256 256',
+}: IconWrapperProps) {
     return (
         <svg
-            height='1em'
-            width='1em'
-            viewBox='0 0 256 256'
+            height={size}
+            width={size}
+            viewBox={viewBox}
             fill='currentColor'
             aria-hidden='true'
             focusable='false'

@@ -10,7 +10,7 @@ export default function RootLayout({ children }: ChildrenContainer) {
     const themeClass = darkMode.value ? 'dark' : 'light';
 
     return (
-        <html lang='en' className={`${themeClass} text-foreground bg-background`}>
+        <html lang='en' className={`${themeClass}`}>
             <body>
                 <Providers>{children}</Providers>
             </body>
