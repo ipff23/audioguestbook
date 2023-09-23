@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { signInWithCredential, signOut, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '@/services/firebase';
 import { readUserById } from './users';
+import type { NextRequest } from 'next/server';
 
 interface Token {
     idToken: string;
@@ -31,6 +32,17 @@ export const storeSession = ({ idToken }: Token) => {
 
 export const readSession = async () => {
     const cookieStore = cookies();
+    if (!cookieStore.has(COOKIE_KEY_AUTH_ID_TOKEN)) {
+        return null;
+    }
+
+    const idToken = cookieStore.get(COOKIE_KEY_AUTH_ID_TOKEN)?.value ?? '';
+    const user = await readUserByToken({ idToken });
+    return user;
+};
+
+export const readSessionFromRequest = async (request: NextRequest) => {
+    const cookieStore = request.cookies;
     if (!cookieStore.has(COOKIE_KEY_AUTH_ID_TOKEN)) {
         return null;
     }

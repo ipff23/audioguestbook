@@ -1,11 +1,11 @@
-import { Barlow } from 'next/font/google';
-
 import { Card, CardHeader, CardBody } from '@nextui-org/card';
 import { Avatar } from '@nextui-org/avatar';
 
+import { Barlow } from 'next/font/google';
+
+import { cn } from '@/helpers/utils';
 import LoginButton from '@/components/login-button';
 import SquaresFourFill from '@/icons/squeares-four-fill';
-import { cn } from '@/helpers/utils';
 
 const barlow = Barlow({
     subsets: ['latin'],

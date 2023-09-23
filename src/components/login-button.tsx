@@ -35,7 +35,7 @@ export default function LoginButton() {
 
     const handleFinished = () => {
         setLoading(false);
-        router.refresh();
+        router.replace('/secret');
     };
 
     const handleLogin = () => {
@@ -46,7 +46,6 @@ export default function LoginButton() {
     return (
         <Button
             color='primary'
-            variant='flat'
             size='lg'
             startContent={icon}
             isLoading={loading}

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { Button } from '@nextui-org/button';
+import { Spinner } from '@nextui-org/spinner';
 
 import SignOutBoldIcon from '@/icons/sign-out-bold';
 
@@ -20,11 +21,9 @@ export default function LogoutButton() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
 
-    const icon = loading ? null : <SignOutBoldIcon />;
-
     const handleFinished = () => {
         setLoading(false);
-        router.refresh();
+        router.replace('/login');
     };
 
     const handleLogout = () => {
@@ -33,15 +32,8 @@ export default function LogoutButton() {
     };
 
     return (
-        <Button
-            color='danger'
-            variant='bordered'
-            size='lg'
-            startContent={icon}
-            isLoading={loading}
-            onClick={handleLogout}
-        >
-            Sign Out
+        <Button isIconOnly color='danger' variant='flat' onClick={handleLogout}>
+            {loading ? <Spinner size='sm' color='danger' /> : <SignOutBoldIcon />}
         </Button>
     );
 }
