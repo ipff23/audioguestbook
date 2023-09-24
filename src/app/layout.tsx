@@ -22,7 +22,7 @@ export default function RootLayout({ children }: ChildrenContainer) {
         <RootLayoutClient>
             {children}
             <ThemeSwitcher />
-            <Footer />
+            <Footer semver={environmentInfo.semver} short={environmentInfo['commit-short']} />
         </RootLayoutClient>
     );
 }
