@@ -1,3 +1,4 @@
+import { $log } from '@/helpers/debug';
 import { readUserByToken, storeSession } from '@/services/auth';
 import { createUser } from '@/services/users';
 
@@ -14,6 +15,7 @@ const jsonResponse = ({ status, data }: JsonResponse) => {
 };
 
 export async function POST(request: Request) {
+    $log('intento de log');
     try {
         const { idToken } = await request.json();
 

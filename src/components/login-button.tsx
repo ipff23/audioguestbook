@@ -14,6 +14,7 @@ const requestLogin = async (onFinished: () => void) => {
         const res = await signInWithPopup(auth, googleAuthProvider);
         console.log(res);
         const credential = GoogleAuthProvider.credentialFromResult(res);
+        console.log(credential);
 
         await fetch('/api/login', {
             method: 'POST',
