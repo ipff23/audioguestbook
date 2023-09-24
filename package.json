@@ -11,6 +11,8 @@
     },
     "dependencies": {
         "@nextui-org/react": "^2.1.12",
+        "@supabase/auth-helpers-nextjs": "^0.8.1",
+        "@supabase/supabase-js": "^2.36.0",
         "@types/node": "20.6.0",
         "@types/react": "18.2.21",
         "@types/react-dom": "18.2.7",
@@ -30,6 +32,7 @@
         "eslint-plugin-react": "7.33.2",
         "eslint-plugin-react-hooks": "^4.6.0",
         "firebase": "^10.4.0",
+        "firebase-admin": "^11.10.1",
         "framer-motion": "^10.16.4",
         "next": "13.4.19",
         "postcss": "8.4.29",

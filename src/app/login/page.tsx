@@ -33,6 +33,7 @@ export default async function Login() {
                             Guestbook
                         </h1>
                     </CardHeader>
+
                     <CardBody className='flex flex-col items-center gap-6 px-6 pb-8'>
                         <Avatar
                             className='w-20 h-20'
@@ -40,11 +41,13 @@ export default async function Login() {
                             showFallback
                             isBordered
                         />
+
                         <p className='text-center'>
                             Inicia sesión con tu cuenta de{' '}
                             <span className='text-primary-500'>Google</span> para acceder al{' '}
                             <span className='text-secondary-500'>dashboard</span>.
                         </p>
+
                         <LoginButton />
                     </CardBody>
                 </Card>

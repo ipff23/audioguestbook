@@ -1,34 +1,22 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { Button } from '@nextui-org/button';
 import { Spinner } from '@nextui-org/spinner';
 
 import SignOutBoldIcon from '@/icons/sign-out-bold';
 
-const requestLogout = async (onFinished: () => void) => {
-    try {
-        await fetch('/api/logout');
-    } catch (error) {
-        console.error(error);
-    } finally {
-        onFinished();
-    }
-};
-
 export default function LogoutButton() {
-    const router = useRouter();
+    const supabase = createClientComponentClient();
     const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
-    const handleFinished = () => {
-        setLoading(false);
-        router.replace('/login');
-    };
-
-    const handleLogout = () => {
+    const handleLogout = async () => {
         setLoading(true);
-        requestLogout(handleFinished);
+        await supabase.auth.signOut();
+        router.refresh();
     };
 
     return (

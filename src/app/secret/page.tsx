@@ -3,8 +3,6 @@ import { Avatar } from '@nextui-org/avatar';
 
 import { Barlow } from 'next/font/google';
 
-import { readSession } from '@/services/auth';
-
 import { cn } from '@/helpers/utils';
 import LogoutButton from '@/components/logout-button';
 import SquaresFourFill from '@/icons/squeares-four-fill';
@@ -17,8 +15,6 @@ const barlow = Barlow({
 });
 
 export default async function Secret() {
-    const user = await readSession();
-
     return (
         <main className='text-foreground bg-background bg-cover bg-center bg-[url("/img/background.jpg")] flex flex-col min-h-screen'>
             <div className='backdrop-blur-lg bg-slate-200/80 dark:bg-slate-950/90 flex min-h-screen flex-col items-center'>
@@ -37,9 +33,10 @@ export default async function Secret() {
                             >
                                 Guestbook
                             </h1>
+
                             <div className='flex-1' />
+
                             <Avatar
-                                src={user?.photoURL ?? '#'}
                                 fallback={<SquaresFourFill className='text-default-500' />}
                                 showFallback
                                 isBordered

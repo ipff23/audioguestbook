@@ -1,48 +1,24 @@
 'use client';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { auth } from '@/services/firebase';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+
 import { Button } from '@nextui-org/button';
 
 import GoogleLogoIcon from '@/icons/google-logo';
 
-const googleAuthProvider = new GoogleAuthProvider();
-
-const requestLogin = async (onFinished: () => void) => {
-    try {
-        const res = await signInWithPopup(auth, googleAuthProvider);
-        console.log(res);
-        const credential = GoogleAuthProvider.credentialFromResult(res);
-        console.log(credential);
-
-        await fetch('/api/login', {
-            method: 'POST',
-            body: JSON.stringify({
-                idToken: credential?.idToken,
-            }),
-        });
-    } catch (error) {
-        console.error(error);
-    } finally {
-        onFinished();
-    }
-};
-
 export default function LoginButton() {
-    const router = useRouter();
+    const supabase = createClientComponentClient();
     const [loading, setLoading] = useState(false);
-
     const icon = loading ? null : <GoogleLogoIcon />;
 
-    const handleFinished = () => {
-        setLoading(false);
-        router.replace('/secret');
-    };
-
-    const handleLogin = () => {
+    const handleLogin = async () => {
         setLoading(true);
-        requestLogin(handleFinished);
+        await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: `${window.location.origin}/auth/callback`,
+            },
+        });
     };
 
     return (

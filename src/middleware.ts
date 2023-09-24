@@ -1,7 +1,5 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-
-import { readSessionFromRequest } from '@/services/auth';
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
+import { NextResponse, type NextRequest } from 'next/server';
 
 function matchBaseRoute(request: NextRequest, basePath: string) {
     return request.nextUrl.pathname.startsWith(basePath);
@@ -23,18 +21,25 @@ function secretMiddleware(request: NextRequest, session: any) {
     return NextResponse.next();
 }
 
-export async function middleware(request: NextRequest) {
-    const session = await readSessionFromRequest(request);
+export async function middleware(req: NextRequest) {
+    const res = NextResponse.next();
+    const supabase = createMiddlewareClient({ req, res });
 
-    if (matchBaseRoute(request, '/login')) {
-        return loginMiddleware(request, session);
-    }
-    if (matchBaseRoute(request, '/secret')) {
-        return secretMiddleware(request, session);
+    const {
+        data: { session },
+    } = await supabase.auth.getSession();
+
+    if (matchBaseRoute(req, '/login')) {
+        return loginMiddleware(req, session);
     }
 
-    return NextResponse.next();
+    if (matchBaseRoute(req, '/secret')) {
+        return secretMiddleware(req, session);
+    }
+
+    return res;
 }
+
 export const config = {
     matcher: ['/login', '/secret/:path*'],
 };
