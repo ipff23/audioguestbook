@@ -15,12 +15,16 @@ const jsonResponse = ({ status, data }: JsonResponse) => {
 };
 
 export async function POST(request: Request) {
-    $log('intento de log');
+    $log({ namespace: 'Login', content: 'cerrando sesion' });
     try {
         const { idToken } = await request.json();
+        $log({ namespace: 'Login/idToken', content: idToken });
 
         const user = await readUserByToken({ idToken });
+        $log({ namespace: 'Login/user', content: user });
+
         const createdUser = await createUser({ uid: user?.uid ?? '' });
+        $log({ namespace: 'Login/createdUser', content: createdUser });
 
         storeSession({ idToken });
 
@@ -31,6 +35,7 @@ export async function POST(request: Request) {
             },
         });
     } catch (error) {
+        $log({ namespace: 'Login', content: error, level: 'error' });
         console.error(error);
 
         return jsonResponse({

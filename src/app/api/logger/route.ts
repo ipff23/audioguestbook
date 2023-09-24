@@ -1,3 +1,4 @@
+import { JsonDB, Config } from 'node-json-db';
 import { compareDesc } from 'date-fns';
 import type { NextRequest } from 'next/server';
 
@@ -14,23 +15,25 @@ const jsonResponse = ({ status, data }: JsonResponse) => {
 };
 
 interface Log {
+    namespace?: string;
     content: any;
     date: Date;
     level: 'log' | 'info' | 'warn' | 'error';
 }
 
-const logsData: Log[] = [];
+const db = new JsonDB(new Config('logsDB', true, false, '/'));
 
 export async function POST(request: Request) {
-    const { content, level } = await request.json();
+    const { namespace, content, level } = await request.json();
 
     const log = {
-        content,
+        namespace: namespace ?? 'none',
+        content: JSON.stringify(content),
         level,
         date: new Date(),
     };
 
-    logsData.push(log);
+    await db.push('/logs[]', log, true);
 
     return jsonResponse({
         status: 201,
@@ -38,16 +41,25 @@ export async function POST(request: Request) {
     });
 }
 
-export function GET(request: NextRequest) {
+export async function GET(request: NextRequest) {
     const query = request.nextUrl.searchParams;
 
     const level = query.get('limit') ?? 'all';
+    const namespace = query.get('limit') ?? 'none';
     const limit = Number(query.get('limit') ?? 50);
     const offset = Number(query.get('offset') ?? 0);
 
-    const filteredData = level === 'all' ? logsData : logsData.filter(log => log.level === level);
+    const logsData = await db.getData('/logs');
 
-    const sortedData = filteredData.sort((a, b) => {
+    const filteredByLevelData =
+        level === 'all' ? logsData : logsData.filter((log: Log) => log.level === level);
+
+    const filteredByNamespaceData =
+        namespace === 'none'
+            ? filteredByLevelData
+            : filteredByLevelData.filter((log: Log) => log.namespace === namespace);
+
+    const sortedData = filteredByNamespaceData.sort((a: Log, b: Log) => {
         return compareDesc(a.date, b.date);
     });
 
