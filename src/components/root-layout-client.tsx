@@ -1,9 +1,8 @@
 'use client';
 import useDarkMode from 'use-dark-mode';
+import { type ChildrenContainer } from '@/types/common';
 
 import { Providers } from '../app/providers';
-
-import type { ChildrenContainer } from '@/types/common';
 
 export default function RootLayout({ children }: ChildrenContainer) {
     const darkMode = useDarkMode(true);

@@ -13,9 +13,5 @@ export async function GET(request: NextRequest) {
         await supabase.auth.exchangeCodeForSession(code);
     }
 
-    const targetUrl = `${request.nextUrl.origin}/secret`;
-
-    console.log('targetUrl', targetUrl);
-
-    return NextResponse.redirect(targetUrl);
+    return NextResponse.redirect(`${request.nextUrl.origin}/secret`);
 }

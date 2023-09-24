@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { type SignInWithOAuthCredentials } from '@supabase/supabase-js';
 
 import { Button } from '@nextui-org/button';
 
@@ -14,16 +13,12 @@ export default function LoginButton() {
 
     const handleLogin = async () => {
         setLoading(true);
-        const settings: SignInWithOAuthCredentials = {
+        await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
                 redirectTo: `${location.origin}/auth/callback`,
             },
-        };
-        console.log(settings);
-        console.log(settings?.options);
-        console.log(settings?.options?.redirectTo);
-        await supabase.auth.signInWithOAuth(settings);
+        });
     };
 
     return (

@@ -1,5 +1,4 @@
 import { Barlow } from 'next/font/google';
-
 import { cn } from '@/helpers/utils';
 
 const barlow = Barlow({

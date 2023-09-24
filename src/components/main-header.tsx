@@ -16,7 +16,7 @@ export default async function MainHeader() {
     return (
         <Card isBlurred className='border-none bg-background/60 dark:bg-default-100/50' shadow='sm'>
             <CardBody className='felx flex-row gap-4'>
-                <Logo />
+                <Logo className='text-black dark:text-white' />
 
                 <div className='flex-1' />
 
