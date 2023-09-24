@@ -1,3 +1,6 @@
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
+
 import { Card, CardBody } from '@nextui-org/card';
 import { Avatar } from '@nextui-org/avatar';
 
@@ -15,6 +18,11 @@ const barlow = Barlow({
 });
 
 export default async function Secret() {
+    const supabase = createServerComponentClient({ cookies });
+    const {
+        data: { session },
+    } = await supabase.auth.getSession();
+
     return (
         <main className='text-foreground bg-background bg-cover bg-center bg-[url("/img/background.jpg")] flex flex-col min-h-screen'>
             <div className='backdrop-blur-lg bg-slate-200/80 dark:bg-slate-950/90 flex min-h-screen flex-col items-center'>
@@ -37,6 +45,7 @@ export default async function Secret() {
                             <div className='flex-1' />
 
                             <Avatar
+                                src={session?.user?.user_metadata?.avatar_url ?? '#'}
                                 fallback={<SquaresFourFill className='text-default-500' />}
                                 showFallback
                                 isBordered
