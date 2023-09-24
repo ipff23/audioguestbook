@@ -21,6 +21,8 @@ export default function LoginButton() {
             },
         };
         console.log(settings);
+        console.log(settings?.options);
+        console.log(settings?.options?.redirectTo);
         await supabase.auth.signInWithOAuth(settings);
     };
 
