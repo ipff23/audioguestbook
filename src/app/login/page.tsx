@@ -36,7 +36,6 @@ export default async function Login() {
                     <CardBody className='flex flex-col items-center gap-6 px-6 pb-8'>
                         <Avatar
                             className='w-20 h-20'
-                            src='https://images.unsplash.com/broken'
                             fallback={<SquaresFourFill className='w-12 h-12 text-default-500' />}
                             showFallback
                             isBordered
