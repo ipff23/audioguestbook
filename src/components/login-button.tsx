@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { signInWithRedirect, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '@/services/firebase';
 import { Button } from '@nextui-org/button';
 
@@ -11,7 +11,8 @@ const googleAuthProvider = new GoogleAuthProvider();
 
 const requestLogin = async (onFinished: () => void) => {
     try {
-        const res = await signInWithPopup(auth, googleAuthProvider);
+        const res = await signInWithRedirect(auth, googleAuthProvider);
+        console.error('[FIREBASE AUTH] RESPONSE:', res);
         const credential = GoogleAuthProvider.credentialFromResult(res);
 
         await fetch('/api/login', {
@@ -21,7 +22,7 @@ const requestLogin = async (onFinished: () => void) => {
             }),
         });
     } catch (error) {
-        console.error(error);
+        console.error('[FIREBASE AUTH] ERROR:', error);
     } finally {
         onFinished();
     }

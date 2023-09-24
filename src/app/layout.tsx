@@ -9,14 +9,14 @@ import type { ChildrenContainer } from '@/types/common';
 import ThemeSwitcher from '@/components/theme-switcher';
 
 const getCommitHash = (): { full: string; short: string } => {
-    const vercelCommitHash = process.env.VERCEL_GIT_COMMIT_SHA;
-
-    if (vercelCommitHash !== null && vercelCommitHash !== undefined) {
-        return {
-            full: vercelCommitHash,
-            short: vercelCommitHash.substring(0, 7),
-        };
-    }
+    //     const vercelCommitHash = process.env.VERCEL_GIT_COMMIT_SHA;
+    //
+    //     if (vercelCommitHash !== null && vercelCommitHash !== undefined) {
+    //         return {
+    //             full: vercelCommitHash,
+    //             short: vercelCommitHash.substring(0, 7),
+    //         };
+    //     }
 
     const localCommitHash = execSync('git rev-parse HEAD').toString().trim();
 
