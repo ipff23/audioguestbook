@@ -6,6 +6,8 @@ import Logo from '@/components/logo';
 import LoginButton from '@/components/login-button';
 import SquaresFourFill from '@/icons/squeares-four-fill';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Login() {
     return (
         <PublicContainer>
