@@ -32,7 +32,6 @@
         "firebase": "^10.4.0",
         "framer-motion": "^10.16.4",
         "next": "13.4.19",
-        "node-json-db": "^2.2.0",
         "postcss": "8.4.29",
         "prettier": "3.0.3",
         "react": "18.2.0",
