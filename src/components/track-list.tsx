@@ -59,7 +59,7 @@ const TrackItem = ({
         return 'Cargando preview...';
     }
 
-    return <TrackPlayer id={id} source={previewTrack} onRemove={onRemove} />;
+    return <TrackPlayer id={id} name={file.name} source={previewTrack} onRemove={onRemove} />;
 };
 
 export default function TrackList({
