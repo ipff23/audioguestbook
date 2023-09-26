@@ -1,4 +1,4 @@
-import PublicContainer from '@/layout/public-container';
+import PublicContainer from '@/components/public-container';
 import Logo from '@/components/logo';
 import ThemeSwitcher from '@/components/theme-switcher';
 

@@ -1,5 +1,5 @@
-import MainContainer from '@/layout/main-container';
-import MainHeader from '@/layout/main-header';
+import MainContainer from '@/components/main-container';
+import MainHeader from '@/components/main-header';
 import CreateBook from '@/components/create-book';
 import BooksList from '@/components/books-list';
 

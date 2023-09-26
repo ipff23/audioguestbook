@@ -7,8 +7,8 @@ import { Image } from '@nextui-org/image';
 import { Button } from '@nextui-org/button';
 import { Link } from '@nextui-org/link';
 
-import MainContainer from '@/layout/main-container';
-import MainHeader from '@/layout/main-header';
+import MainContainer from '@/components/main-container';
+import MainHeader from '@/components/main-header';
 
 import ExternalIcon from '@/icons/external-regular';
 import SaveIcon from '@/icons/floppy-disk-regular';

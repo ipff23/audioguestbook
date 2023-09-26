@@ -4,8 +4,8 @@ import { type Metadata } from 'next';
 import { type ChildrenContainer } from '@/types/common';
 import { getEnvironmentInfo } from '@/helpers/environment';
 
-import RootLayoutClient from '@/layout/root-layout';
-import Footer from '@/layout/footer';
+import RootLayoutClient from '@/components/root-layout';
+import Footer from '@/components/footer';
 import ThemeSwitcher from '@/components/theme-switcher';
 
 const environmentInfo = getEnvironmentInfo();

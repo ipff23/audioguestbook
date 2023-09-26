@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardBody } from '@nextui-org/card';
 import { Avatar } from '@nextui-org/avatar';
 
-import PublicContainer from '@/layout/public-container';
+import PublicContainer from '@/components/public-container';
 import Logo from '@/components/logo';
 import LoginButton from '@/components/login-button';
 import SquaresFourFill from '@/icons/squeares-four-fill';

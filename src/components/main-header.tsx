@@ -8,7 +8,7 @@ import { Avatar } from '@nextui-org/avatar';
 import { getSessionUser } from '@/helpers/session';
 import LogoutButton from '@/components/logout-button';
 import SquaresFourFill from '@/icons/squeares-four-fill';
-import Logo from '../components/logo';
+import Logo from './logo';
 
 export default async function MainHeader() {
     const supabase = createServerComponentClient({ cookies });
