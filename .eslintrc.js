@@ -30,6 +30,7 @@ module.exports = {
         '@typescript-eslint/triple-slash-reference': 'off',
         '@typescript-eslint/strict-boolean-expressions': 'off',
         '@typescript-eslint/no-base-to-string': 'off',
+        '@typescript-eslint/no-confusing-void-expression': 'off',
     },
     settings: {
         react: {

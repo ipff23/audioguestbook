@@ -1,5 +1,5 @@
+import PublicContainer from '@/layout/public-container';
 import Logo from '@/components/logo';
-import PublicContainer from '@/components/public-container';
 import ThemeSwitcher from '@/components/theme-switcher';
 
 export default async function Home() {

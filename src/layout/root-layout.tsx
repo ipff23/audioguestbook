@@ -5,7 +5,7 @@ import { type ChildrenContainer } from '@/types/common';
 import { Providers } from '../app/providers';
 
 export default function RootLayout({ children }: ChildrenContainer) {
-    const darkMode = useDarkMode(true);
+    const darkMode = useDarkMode();
     const themeClass = darkMode.value ? 'dark' : 'light';
 
     return (

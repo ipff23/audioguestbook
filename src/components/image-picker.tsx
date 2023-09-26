@@ -17,18 +17,17 @@ import TrashIcon from '@/icons/trash-regular';
 
 const allowedTypes = 'image/png, image/jpeg';
 
-export default function ImagePicker({ onChange }: { onChange?: (file: File) => void }) {
+export default function ImagePicker({
+    disabled = false,
+    onChange,
+}: {
+    disabled?: boolean;
+    onChange?: (file: File) => void;
+}) {
     const $input = useRef<HTMLInputElement>(null);
     const [selectedImage, setSelectedImage] = useState<File | null | undefined>(null);
     const [previewImage, setPreviewImage] = useState<string>();
     const [dragOver, setDragOver] = useState(false);
-
-    const reader: any = new FileReader();
-    reader.onloadend = (ev: ProgressEvent<FileReader>) => {
-        if (ev.target?.result) {
-            setPreviewImage(ev.target?.result.toString());
-        }
-    };
 
     const handleTrigger = (ev: MouseEvent) => {
         ev.preventDefault();
@@ -59,6 +58,10 @@ export default function ImagePicker({ onChange }: { onChange?: (file: File) => v
         ev.preventDefault();
         setDragOver(false);
 
+        if (disabled) {
+            return;
+        }
+
         const file = ev.dataTransfer.files?.item(0);
         const isAllowed = allowedTypes.split(',').some(type => type.trim() === file?.type);
 
@@ -68,10 +71,21 @@ export default function ImagePicker({ onChange }: { onChange?: (file: File) => v
     };
 
     useEffect(() => {
+        const reader: FileReader = new FileReader();
+        reader.onloadend = (ev: ProgressEvent<FileReader>) => {
+            if (ev.target?.result) {
+                setPreviewImage(ev.target?.result.toString());
+            }
+        };
+
         if (selectedImage) {
             reader.readAsDataURL(selectedImage);
             onChange?.(selectedImage);
         }
+
+        return () => {
+            reader.abort();
+        };
     }, [selectedImage]);
 
     return (
@@ -82,11 +96,22 @@ export default function ImagePicker({ onChange }: { onChange?: (file: File) => v
                 type='file'
                 accept={allowedTypes}
                 onChange={handleChange}
+                disabled={disabled}
             />
 
             {selectedImage ? (
-                <div className='w-[150px] h-[150px] relative flex justify-center items-center'>
-                    <Button isIconOnly size='lg' className='relative z-20' onClick={handleReset}>
+                <div
+                    className={cn('w-[150px] h-[150px] relative flex justify-center items-center', {
+                        'opacity-50': disabled,
+                    })}
+                >
+                    <Button
+                        isIconOnly
+                        size='lg'
+                        className='relative z-20'
+                        onClick={handleReset}
+                        isDisabled={disabled}
+                    >
                         <TrashIcon />
                     </Button>
                     <div className='w-[150px] h-[150px] absolute z-10'>
@@ -104,8 +129,11 @@ export default function ImagePicker({ onChange }: { onChange?: (file: File) => v
                         'w-[150px] h-[150px] flex flex-col gap-4 justify-center items-center bg-transparent border-dashed border-2 border-default-200 rounded-lg text-xs p-6 transition-all',
                         {
                             'border-default-400': dragOver,
+                            'border-red-400': dragOver && disabled,
+                            'opacity-50': disabled,
                         },
                     )}
+                    disabled={disabled}
                     onClick={handleTrigger}
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
