@@ -25,7 +25,7 @@ export default function MainContainer({ classNames, background, children }: Main
         >
             <div
                 className={cn(
-                    'backdrop-blur-2xl bg-slate-200/80 dark:bg-slate-950/90 flex min-h-screen flex-col items-center',
+                    'backdrop-blur-2xl bg-slate-200/60 dark:bg-slate-950/80 flex min-h-screen flex-col items-center',
                     classNames?.overlay,
                 )}
             >
