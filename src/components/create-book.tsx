@@ -130,7 +130,7 @@ export default function CreateBook() {
                             <div className='flex justify-end'>
                                 <Button
                                     color='primary'
-                                    endContent={<SaveIcon />}
+                                    startContent={<SaveIcon />}
                                     onClick={handleCreate}
                                     isLoading={loading}
                                     isDisabled={loading || !canSubmit}

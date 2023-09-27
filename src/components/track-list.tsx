@@ -15,6 +15,12 @@ import CasseteTapeIcon from '@/icons/cassette-tape-regular';
 import { useMap } from 'ahooks';
 import { nanoid } from 'nanoid';
 
+export interface FileItem {
+    id: string;
+    name: string;
+    file: File;
+}
+
 const allowedTypes = 'audio/mpeg';
 
 const fileListToArray = (fileList: FileList | null): File[] => {
@@ -67,7 +73,7 @@ export default function TrackList({
     onChange,
 }: {
     disabled?: boolean;
-    onChange?: (files: File[]) => void;
+    onChange?: (files: FileItem[]) => void;
 }) {
     const $input = useRef<HTMLInputElement>(null);
     const [tracksSources, { set: setTrack, remove: removeTrack }] = useMap<string, File>();
@@ -124,7 +130,11 @@ export default function TrackList({
     };
 
     useEffect(() => {
-        const tracks = Array.from(tracksSources).map(([_, file]) => file);
+        const tracks = Array.from(tracksSources).map(([id, file]) => ({
+            id,
+            file,
+            name: file.name,
+        }));
         onChange?.(tracks);
     }, [tracksSources]);
 
