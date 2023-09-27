@@ -12,18 +12,18 @@ import { Image } from '@nextui-org/image';
 import { Button } from '@nextui-org/button';
 
 import { cn } from '@/helpers/utils';
+
 import SearchIcon from '@/icons/file-search-regular';
 import TrashIcon from '@/icons/trash-regular';
 
 const allowedTypes = 'image/png, image/jpeg';
 
-export default function ImagePicker({
-    disabled = false,
-    onChange,
-}: {
+export interface ImagePickerProps {
     disabled?: boolean;
     onChange?: (file: File) => void;
-}) {
+}
+
+export default function ImagePicker({ disabled = false, onChange }: ImagePickerProps) {
     const $input = useRef<HTMLInputElement>(null);
     const [selectedImage, setSelectedImage] = useState<File | null | undefined>(null);
     const [previewImage, setPreviewImage] = useState<string>();

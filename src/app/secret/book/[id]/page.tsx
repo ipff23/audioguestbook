@@ -3,11 +3,16 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import MainContainer from '@/components/main-container';
 import MainHeader from '@/components/main-header';
-import BookEditor from '@/components/book-editor';
+
+import BookEditor from './components/book-editor';
 
 export const dynamic = 'force-dynamic';
 
-export default async function Secret({ params: { id } }: { params: { id: string } }) {
+export interface BookProps {
+    params: { id: string };
+}
+
+export default async function Book({ params: { id } }: BookProps) {
     const supabase = createServerComponentClient({ cookies });
     const { data } = await supabase.from('books').select('*').eq('id', id).single();
 

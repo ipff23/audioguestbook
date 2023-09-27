@@ -10,6 +10,16 @@ export interface Track {
     pause: () => void;
 }
 
+export const defaultTrackPayload = {
+    playing: false,
+    buffering: false,
+    currentTime: 0,
+    duration: 0,
+    load: (url: string) => {},
+    play: (url?: string) => {},
+    pause: () => {},
+};
+
 export const useTrack = (): Track => {
     const $track = useRef<HTMLAudioElement>(document.createElement('audio'));
 
@@ -76,9 +86,7 @@ export const useTrack = (): Track => {
         setPlaying(true);
     };
 
-    useEffect(() => {
-        instantiate();
-
+    const bindEvents = () => {
         $track.current?.addEventListener('timeupdate', handleProgress);
         $track.current?.addEventListener('durationchange', handleDurationChange);
         $track.current?.addEventListener('play', handlePlay);
@@ -86,14 +94,22 @@ export const useTrack = (): Track => {
         $track.current?.addEventListener('ended', handleEnded);
         $track.current?.addEventListener('waiting', handleBuffer);
         $track.current?.addEventListener('playing', handleResume);
+    };
+
+    const unbindEvents = () => {
+        $track.current?.removeEventListener('play', handlePlay);
+        $track.current?.removeEventListener('pause', handlePause);
+        $track.current?.removeEventListener('ended', handleEnded);
+        $track.current?.removeEventListener('waiting', handleBuffer);
+        $track.current?.removeEventListener('playing', handleResume);
+    };
+
+    useEffect(() => {
+        instantiate();
+        bindEvents();
 
         return () => {
-            $track.current?.removeEventListener('play', handlePlay);
-            $track.current?.removeEventListener('pause', handlePause);
-            $track.current?.removeEventListener('ended', handleEnded);
-            $track.current?.removeEventListener('waiting', handleBuffer);
-            $track.current?.removeEventListener('playing', handleResume);
-
+            unbindEvents();
             uninstantiate();
         };
     }, []);

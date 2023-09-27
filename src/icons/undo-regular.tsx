@@ -5,7 +5,15 @@ export default function UndoRegular(props: IconProps) {
         <IconWrapper {...props}>
             <rect width='256' height='256' fill='none' />
             <polyline
-                points='88 152 24 152 24 88'
+                points='128 80 128 128 168 152'
+                fill='none'
+                stroke='currentColor'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='16'
+            />
+            <polyline
+                points='72 104 32 104 32 64'
                 fill='none'
                 stroke='currentColor'
                 strokeLinecap='round'
@@ -13,7 +21,7 @@ export default function UndoRegular(props: IconProps) {
                 strokeWidth='16'
             />
             <path
-                d='M224,184A96,96,0,0,0,60.12,116.12L24,152'
+                d='M67.6,192A88,88,0,1,0,65.77,65.77C54,77.69,44.28,88.93,32,104'
                 fill='none'
                 stroke='currentColor'
                 strokeLinecap='round'

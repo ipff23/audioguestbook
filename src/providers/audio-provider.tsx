@@ -1,20 +1,9 @@
 'use client';
 import { createContext, useContext } from 'react';
 import { type ChildrenContainer } from '@/types/common';
+import { type Track, useTrack, defaultTrackPayload } from '@/hooks/use-track';
 
-import { type Track, useTrack } from '@/hooks/use-track';
-
-const defaultAudioPayload = {
-    playing: false,
-    buffering: false,
-    currentTime: 0,
-    duration: 0,
-    load: (url: string) => {},
-    play: (url?: string) => {},
-    pause: () => {},
-};
-
-const AudioContext = createContext<Track>(defaultAudioPayload);
+const AudioContext = createContext<Track>(defaultTrackPayload);
 
 export const useAudio = () => {
     return useContext(AudioContext);

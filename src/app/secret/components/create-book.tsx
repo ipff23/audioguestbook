@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useRequest } from 'ahooks';
 
@@ -11,8 +12,8 @@ import { Accordion, AccordionItem } from '@nextui-org/accordion';
 import PlusIcon from '@/icons/plus-bold';
 import ClosedIcon from '@/icons/closed-bold';
 import SaveIcon from '@/icons/floppy-disk-regular';
+
 import ImagePicker from './image-picker';
-import { useState } from 'react';
 
 const createBooksService = async ({
     name,
@@ -130,7 +131,7 @@ export default function CreateBook() {
                             <div className='flex justify-end'>
                                 <Button
                                     color='primary'
-                                    startContent={<SaveIcon />}
+                                    endContent={<SaveIcon />}
                                     onClick={handleCreate}
                                     isLoading={loading}
                                     isDisabled={loading || !canSubmit}

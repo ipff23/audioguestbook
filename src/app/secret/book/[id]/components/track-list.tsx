@@ -7,13 +7,14 @@ import {
     useState,
     useEffect,
 } from 'react';
-
-import { cn } from '@/helpers/utils';
-
-import TrackPlayer from '@/components/track-player';
-import CasseteTapeIcon from '@/icons/cassette-tape-regular';
 import { useMap } from 'ahooks';
-import { nanoid } from 'nanoid';
+
+import { cn, nanoid } from '@/helpers/utils';
+import { fileListToArray } from '@/helpers/arrays';
+
+import CasseteTapeIcon from '@/icons/cassette-tape-regular';
+
+import TrackItem from './track-item';
 
 export interface FileItem {
     id: string;
@@ -21,60 +22,14 @@ export interface FileItem {
     file: File;
 }
 
-const allowedTypes = 'audio/mpeg';
-
-const fileListToArray = (fileList: FileList | null): File[] => {
-    if (fileList === null) {
-        return [];
-    }
-
-    const files: File[] = [];
-
-    for (let i = 0; i < fileList.length; i++) {
-        files.push(fileList.item(i) as File);
-    }
-
-    return files;
-};
-
-const TrackItem = ({
-    id,
-    file,
-    onRemove,
-}: {
-    id: string;
-    file: File;
-    onRemove?: (id: string) => void;
-}) => {
-    const [previewTrack, setPreviewTrack] = useState<string>();
-    useEffect(() => {
-        const reader: FileReader = new FileReader();
-        reader.onloadend = (ev: ProgressEvent<FileReader>) => {
-            if (ev.target?.result) {
-                setPreviewTrack(ev.target?.result.toString());
-            }
-        };
-        reader.readAsDataURL(file);
-
-        return () => {
-            reader.abort();
-        };
-    }, [file]);
-
-    if (!previewTrack) {
-        return 'Cargando preview...';
-    }
-
-    return <TrackPlayer id={id} name={file.name} source={previewTrack} onRemove={onRemove} />;
-};
-
-export default function TrackList({
-    disabled = false,
-    onChange,
-}: {
+export interface TrackListProps {
     disabled?: boolean;
     onChange?: (files: FileItem[]) => void;
-}) {
+}
+
+const allowedTypes = 'audio/mpeg';
+
+export default function TrackList({ disabled = false, onChange }: TrackListProps) {
     const $input = useRef<HTMLInputElement>(null);
     const [tracksSources, { set: setTrack, remove: removeTrack }] = useMap<string, File>();
     const [dragOver, setDragOver] = useState(false);

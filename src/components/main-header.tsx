@@ -1,13 +1,15 @@
 import { cookies } from 'next/headers';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import Link from 'next/link';
 
+import Link from 'next/link';
 import { Card, CardBody } from '@nextui-org/card';
 import { Avatar } from '@nextui-org/avatar';
 
 import { getSessionUser } from '@/helpers/session';
 import LogoutButton from '@/components/logout-button';
+
 import SquaresFourFill from '@/icons/squeares-four-fill';
+
 import Logo from './logo';
 
 export default async function MainHeader() {

@@ -6,22 +6,27 @@ import { Image } from '@nextui-org/image';
 import { Button } from '@nextui-org/button';
 import { Link } from '@nextui-org/link';
 
+import { type Book } from '@/types/books';
+
+import { useEmitter } from '@/providers/bus-provider';
+
 import ExternalIcon from '@/icons/external-regular';
 import SaveIcon from '@/icons/floppy-disk-regular';
+import UndoIcon from '@/icons/undo-regular';
 
-import TrackList, { type FileItem } from '@/components/track-list';
-import UndoRegular from '@/icons/undo-regular';
+import TrackList, { type FileItem } from './track-list';
 
-interface Book {
-    id: string;
-    nanoid: string;
-    created_at: string;
-    name: string;
-    date: string;
-    cover: string;
+export interface BookEditorProps {
+    book: Book;
 }
 
-export default function BookEditor({ book }: { book: Book }) {
+export default function BookEditor({ book }: BookEditorProps) {
+    const emitSave = useEmitter('save');
+
+    const handleSave = () => {
+        emitSave();
+    };
+
     const handleTrackListChange = (trakList: FileItem[]) => {
         console.log(trakList);
     };
@@ -65,11 +70,11 @@ export default function BookEditor({ book }: { book: Book }) {
                     </CardBody>
                 </Card>
 
-                <Button color='primary' startContent={<SaveIcon />}>
+                <Button color='primary' endContent={<SaveIcon />} onClick={handleSave}>
                     Guardar
                 </Button>
 
-                <Button startContent={<UndoRegular />}>Restaurar</Button>
+                <Button endContent={<UndoIcon />}>Restaurar</Button>
             </div>
         </div>
     );

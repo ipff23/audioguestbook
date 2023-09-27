@@ -8,7 +8,11 @@ const barlow = Barlow({
     style: 'italic',
 });
 
-export default function Logo({ className }: { className?: string }) {
+export interface LogoProps {
+    className?: string;
+}
+
+export default function Logo({ className }: LogoProps) {
     return (
         <h1
             className={cn(

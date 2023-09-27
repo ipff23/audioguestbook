@@ -1,26 +1,14 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
-import { customAlphabet } from 'nanoid';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { parse } from 'date-fns';
 
-const nanoid = customAlphabet('1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz', 10);
+import { nanoid } from '@/helpers/utils';
+import { jsonResponse, requestHandler } from '@/helpers/http';
 
 export const dynamic = 'force-dynamic';
 
-interface JsonResponse {
-    status: number;
-    data: any;
-}
-
-const jsonResponse = ({ status, data }: JsonResponse) => {
-    return new Response(JSON.stringify({ data }), {
-        status,
-        headers: { 'Content-Type': 'application/json' },
-    });
-};
-
 export async function POST(request: Request) {
-    try {
+    return await requestHandler(async () => {
         const supabase = createRouteHandlerClient({ cookies });
         const formData = await request.formData();
 
@@ -52,11 +40,5 @@ export async function POST(request: Request) {
             status: 201,
             data: bookData,
         });
-    } catch (error) {
-        console.error(error);
-        return jsonResponse({
-            status: 400,
-            data: { error },
-        });
-    }
+    });
 }

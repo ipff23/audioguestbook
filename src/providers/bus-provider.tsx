@@ -5,19 +5,19 @@ import { type ChildrenContainer } from '@/types/common';
 type EventHandler = (...args: any[]) => void;
 type Event = Record<string, EventHandler[]>;
 
-interface Bus {
+export interface Bus {
     on: (eventName: string, eventHandler: EventHandler) => () => void;
     off: (eventName: string, eventHandler: EventHandler) => void;
     emit: (eventName: string, ...args: any[]) => void;
 }
 
-const defaultBus = {
+const defaultBusPayload = {
     on: (_: string, h: () => void) => () => {},
     off: (_: string, h: () => void) => {},
     emit: (_: string) => {},
 };
 
-const BusContext = createContext<Bus>(defaultBus);
+const BusContext = createContext<Bus>(defaultBusPayload);
 
 export const useEvents = () => {
     return useContext(BusContext);
