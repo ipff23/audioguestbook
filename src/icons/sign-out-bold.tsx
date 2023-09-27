@@ -3,7 +3,34 @@ import IconWrapper, { type IconProps } from './icon-wrapper';
 export default function SignOutBold(props: IconProps) {
     return (
         <IconWrapper {...props}>
-            <path d='M116,216a12,12,0,0,1-12,12H48a20,20,0,0,1-20-20V48A20,20,0,0,1,48,28h56a12,12,0,0,1,0,24H52V204h52A12,12,0,0,1,116,216Zm108.49-96.49-40-40a12,12,0,0,0-17,17L187,116H104a12,12,0,0,0,0,24h83l-19.52,19.51a12,12,0,0,0,17,17l40-40A12,12,0,0,0,224.49,119.51Z' />
+            <rect width='256' height='256' fill='none' />
+            <path
+                d='M104,40H48a8,8,0,0,0-8,8V208a8,8,0,0,0,8,8h56'
+                fill='none'
+                stroke='currentColor'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='24'
+            />
+            <line
+                x1='104'
+                y1='128'
+                x2='216'
+                y2='128'
+                fill='none'
+                stroke='currentColor'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='24'
+            />
+            <polyline
+                points='176 88 216 128 176 168'
+                fill='none'
+                stroke='currentColor'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='24'
+            />
         </IconWrapper>
     );
 }

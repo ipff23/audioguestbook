@@ -9,12 +9,16 @@ import {
 } from 'react';
 import { useMap } from 'ahooks';
 
+import { type Track } from '@/types/books';
+
 import { cn, nanoid } from '@/helpers/utils';
 import { fileListToArray } from '@/helpers/arrays';
+import { hasAllowedType } from '@/helpers/asserts';
 
 import CasseteTapeIcon from '@/icons/cassette-tape-regular';
 
 import TrackItem from './track-item';
+import { createFileFromUrl } from '@/helpers/files';
 
 export interface FileItem {
     id: string;
@@ -23,28 +27,37 @@ export interface FileItem {
 }
 
 export interface TrackListProps {
+    bookId: string;
+    tracks: Track[];
     disabled?: boolean;
-    onChange?: (files: FileItem[]) => void;
+    onChange?: (fileItems: FileItem[]) => void;
+    onLoading?: (loading: boolean) => void;
 }
 
 const allowedTypes = 'audio/mpeg';
 
-export default function TrackList({ disabled = false, onChange }: TrackListProps) {
+export default function TrackList({
+    bookId,
+    tracks = [],
+    disabled = false,
+    onChange,
+    onLoading,
+}: TrackListProps) {
     const $input = useRef<HTMLInputElement>(null);
-    const [tracksSources, { set: setTrack, remove: removeTrack }] = useMap<string, File>();
     const [dragOver, setDragOver] = useState(false);
+    const [tracksSources, tracksSourcesManager] = useMap<string, File>();
+    const [tracksLoading, tracksLoadingManager] = useMap<string, boolean>();
+    const [tracksRegistered, tracksRegisteredManager] = useMap<string, boolean>();
 
     const processFileList = (fileList: FileList | null) => {
-        if (fileList === null) {
-            return;
-        }
+        if (fileList === null) return;
 
-        const files = fileListToArray(fileList);
-
-        files.forEach((file: File) => {
-            const isAllowed = allowedTypes.split(',').some(type => type.trim() === file?.type);
-            if (isAllowed) {
-                setTrack(nanoid(), file);
+        fileListToArray(fileList).forEach((file: File) => {
+            if (hasAllowedType(file, allowedTypes)) {
+                const id = nanoid();
+                tracksSourcesManager.set(id, file);
+                tracksLoadingManager.set(id, false);
+                tracksRegisteredManager.set(id, false);
             }
         });
     };
@@ -60,7 +73,8 @@ export default function TrackList({ disabled = false, onChange }: TrackListProps
     };
 
     const handleRemove = (id: string) => {
-        removeTrack(id);
+        tracksSourcesManager.remove(id);
+        tracksLoadingManager.remove(id);
     };
 
     const handleDragOver = (ev: DragEvent) => {
@@ -84,14 +98,35 @@ export default function TrackList({ disabled = false, onChange }: TrackListProps
         processFileList(ev.dataTransfer.files);
     };
 
+    const handleCreate = (id: string) => {
+        tracksLoadingManager.set(id, false);
+    };
+
     useEffect(() => {
-        const tracks = Array.from(tracksSources).map(([id, file]) => ({
-            id,
-            file,
-            name: file.name,
-        }));
-        onChange?.(tracks);
-    }, [tracksSources]);
+        const isLoading = Array.from(tracksLoading).some(([_, loading]) => loading);
+        onLoading?.(isLoading);
+    }, [tracksLoading]);
+
+    useEffect(() => {
+        const fileItems = Array.from(tracksSources).map(
+            ([id, file]): FileItem => ({
+                id,
+                file,
+                name: file.name,
+            }),
+        );
+        onChange?.(fileItems);
+    }, [tracksLoading]);
+
+    useEffect(() => {
+        tracks.forEach(async track => {
+            const file = await createFileFromUrl(track.url);
+
+            tracksSourcesManager.set(track.nanoid, file);
+            tracksLoadingManager.set(track.nanoid, false);
+            tracksRegisteredManager.set(track.nanoid, true);
+        });
+    }, [tracks]);
 
     return (
         <div
@@ -125,7 +160,15 @@ export default function TrackList({ disabled = false, onChange }: TrackListProps
             </button>
 
             {Array.from(tracksSources).map(([id, file]: [string, File]) => (
-                <TrackItem key={id} id={id} file={file} onRemove={handleRemove} />
+                <TrackItem
+                    key={id}
+                    bookId={bookId}
+                    id={id}
+                    file={file}
+                    registerd={Boolean(tracksRegistered.get(id))}
+                    onRemove={handleRemove}
+                    onCreated={handleCreate}
+                />
             ))}
         </div>
     );

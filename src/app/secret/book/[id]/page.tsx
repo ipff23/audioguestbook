@@ -14,7 +14,7 @@ export interface BookProps {
 
 export default async function Book({ params: { id } }: BookProps) {
     const supabase = createServerComponentClient({ cookies });
-    const { data } = await supabase.from('books').select('*').eq('id', id).single();
+    const { data } = await supabase.from('books').select('*, tracks(*)').eq('id', id).single();
 
     return (
         <MainContainer background={data.cover}>

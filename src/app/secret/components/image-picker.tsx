@@ -15,6 +15,7 @@ import { cn } from '@/helpers/utils';
 
 import SearchIcon from '@/icons/file-search-regular';
 import TrashIcon from '@/icons/trash-regular';
+import { hasAllowedType } from '@/helpers/asserts';
 
 const allowedTypes = 'image/png, image/jpeg';
 
@@ -29,15 +30,23 @@ export default function ImagePicker({ disabled = false, onChange }: ImagePickerP
     const [previewImage, setPreviewImage] = useState<string>();
     const [dragOver, setDragOver] = useState(false);
 
+    const processFile = (file: File) => {
+        if (file === null) return;
+
+        if (hasAllowedType(file, allowedTypes)) {
+            setSelectedImage(file);
+        }
+    };
+
     const handleTrigger = (ev: MouseEvent) => {
         ev.preventDefault();
         $input.current?.click();
     };
 
     const handleChange = (ev: ChangeEvent<HTMLInputElement>) => {
-        const file = ev.target.files?.item(0);
+        const file = ev.target.files?.item(0) as File;
+        processFile(file);
         ev.target.value = '';
-        setSelectedImage(file);
     };
 
     const handleReset = () => {
@@ -58,16 +67,10 @@ export default function ImagePicker({ disabled = false, onChange }: ImagePickerP
         ev.preventDefault();
         setDragOver(false);
 
-        if (disabled) {
-            return;
-        }
+        if (disabled) return;
 
-        const file = ev.dataTransfer.files?.item(0);
-        const isAllowed = allowedTypes.split(',').some(type => type.trim() === file?.type);
-
-        if (isAllowed) {
-            setSelectedImage(file);
-        }
+        const file = ev.dataTransfer.files?.item(0) as File;
+        processFile(file);
     };
 
     useEffect(() => {

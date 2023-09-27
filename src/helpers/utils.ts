@@ -7,6 +7,6 @@ export const nanoid = customAlphabet(
     10,
 );
 
-export function cn(...inputs: ClassValue[]) {
+export const cn = (...inputs: ClassValue[]): string => {
     return twMerge(clsx(inputs));
-}
+};

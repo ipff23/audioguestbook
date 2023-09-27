@@ -14,27 +14,21 @@ import ClosedIcon from '@/icons/closed-bold';
 import SaveIcon from '@/icons/floppy-disk-regular';
 
 import ImagePicker from './image-picker';
+import createBook from '@/actions/create-book';
 
-const createBooksService = async ({
-    name,
-    date,
-    cover,
-}: {
+interface BookData {
     name: string;
     date: string;
     cover: File;
-}) => {
+}
+
+const createBooksService = async ({ name, date, cover }: BookData) => {
     const formData = new FormData();
     formData.append('name', name);
     formData.append('date', date);
     formData.append('cover', cover);
 
-    const res = await fetch('/api/books', {
-        method: 'POST',
-        body: formData,
-    });
-
-    return res;
+    await createBook(formData);
 };
 
 export default function CreateBook() {

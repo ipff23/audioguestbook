@@ -6,7 +6,7 @@ import MoonFillIcon from '@/icons/moon-fill';
 import SunFillIcon from '@/icons/sun-fill';
 
 export default function ThemeSwitcher() {
-    const darkMode = useDarkMode();
+    const darkMode = useDarkMode(true);
 
     return (
         <div className='fixed bottom-8 right-4'>

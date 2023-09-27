@@ -1,81 +1,102 @@
 'use client';
-import { format } from 'date-fns';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useRequest } from 'ahooks';
 
-import { Card, CardBody } from '@nextui-org/card';
-import { Image } from '@nextui-org/image';
 import { Button } from '@nextui-org/button';
-import { Link } from '@nextui-org/link';
 
-import { type Book } from '@/types/books';
+import { type Book, type Track } from '@/types/books';
 
 import { useEmitter } from '@/providers/bus-provider';
+import removeTracks from '@/actions/remove-tracks';
 
-import ExternalIcon from '@/icons/external-regular';
 import SaveIcon from '@/icons/floppy-disk-regular';
 import UndoIcon from '@/icons/undo-regular';
 
+import BookCard from './book-card';
 import TrackList, { type FileItem } from './track-list';
 
 export interface BookEditorProps {
-    book: Book;
+    book: Book & { tracks: Track[] };
 }
 
+const getRemovedItems = (originalItems: Track[], modifiedItems: FileItem[]) => {
+    const originalIds = originalItems.map(i => i.nanoid);
+    const modifiedIds = modifiedItems.map(i => i.id);
+    const removedItems = originalIds.filter(id => !modifiedIds.includes(id));
+    return removedItems;
+};
+
+const removeTracksService = async (tracksIds: string[]) => {
+    await removeTracks(tracksIds);
+};
+
 export default function BookEditor({ book }: BookEditorProps) {
-    const emitSave = useEmitter('save');
+    const router = useRouter();
+    const [saving, setSaving] = useState<boolean>(false);
+    const [trackItems, setTrackItems] = useState<FileItem[]>([]);
+
+    const emitSave = useEmitter('book-editor:save');
+
+    const { run, loading: removing } = useRequest(removeTracksService, {
+        manual: true,
+        onError: error => {
+            console.log({ error });
+        },
+    });
 
     const handleSave = () => {
         emitSave();
+        setSaving(true);
+
+        const itemsToRemove = getRemovedItems(book.tracks, trackItems);
+        run(itemsToRemove);
     };
 
-    const handleTrackListChange = (trakList: FileItem[]) => {
-        console.log(trakList);
+    const handleRestore = () => {
+        router.refresh();
+    };
+
+    const handleLoading = (loading: boolean) => {
+        setSaving(loading);
+    };
+
+    const handleChange = (fileItems: FileItem[]) => {
+        setTrackItems(fileItems);
     };
 
     return (
-        <div className='flex flex-row gap-4 items-start'>
-            <TrackList onChange={handleTrackListChange} />
-
+        <div className='flex flex-row-reverse gap-4 items-start'>
             <div className='flex-none h-auto flex flex-col gap-4'>
-                <Card
-                    isBlurred
-                    className='border-none bg-background/60 dark:bg-default-100/50'
-                    shadow='sm'
-                >
-                    <CardBody>
-                        <div className='flex flex-col items-center'>
-                            <Image
-                                className='object-cover w-[150px] h-[150px] self-center'
-                                src={book.cover}
-                                width={150}
-                                height={150}
-                                shadow='md'
-                            />
-                        </div>
-                        <div className='mt-4 flex flex-col gap-2 items-start max-w-[160px]'>
-                            <h1 className='text-lg leading-5 hyphens-auto' lang='es-MX'>
-                                {book.name}
-                            </h1>
-                            <p className='text-sm text-slate-400'>
-                                {format(new Date(book.date), 'MMMM do, yyyy')}
-                            </p>
-                            <Link
-                                href={`/book/${book.nanoid}`}
-                                isExternal
-                                showAnchorIcon
-                                anchorIcon={<ExternalIcon className='ml-1' size='1rem' />}
-                            >
-                                {book.nanoid}
-                            </Link>
-                        </div>
-                    </CardBody>
-                </Card>
+                <BookCard book={book} />
 
-                <Button color='primary' endContent={<SaveIcon />} onClick={handleSave}>
+                <Button
+                    color='primary'
+                    endContent={<SaveIcon />}
+                    onClick={handleSave}
+                    isDisabled={(saving && removing) || trackItems.length === 0}
+                    isLoading={saving}
+                >
                     Guardar
                 </Button>
 
-                <Button endContent={<UndoIcon />}>Restaurar</Button>
+                <Button
+                    color='default'
+                    endContent={<UndoIcon />}
+                    onClick={handleRestore}
+                    isDisabled={saving}
+                >
+                    Restaurar
+                </Button>
             </div>
+
+            <TrackList
+                bookId={book.id}
+                disabled={saving && removing}
+                tracks={book.tracks}
+                onChange={handleChange}
+                onLoading={handleLoading}
+            />
         </div>
     );
 }

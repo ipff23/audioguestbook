@@ -3,7 +3,7 @@ export interface JsonResponse {
     data: any;
 }
 
-export const jsonResponse = ({ status, data }: JsonResponse) => {
+export const jsonResponse = ({ status, data }: JsonResponse): Response => {
     return new Response(JSON.stringify({ data }), {
         status,
         headers: { 'Content-Type': 'application/json' },
