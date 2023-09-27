@@ -22,7 +22,7 @@ export default function BookItem({ id, nanoid, name, date, cover }: BookItemProp
             <CardBody className='flex flex-row gap-3 items-center'>
                 <Image src={cover} height={52} width={52} radius='sm' />
                 <div className='flex flex-col flex-1'>
-                    <p className='text-md'>{name}</p>
+                    <p className='text-md break-all hyphens-auto line-clamp-1'>{name}</p>
                     <p className='text-small text-default-500'>
                         {format(new Date(date), 'MMMM do, yyyy')}
                     </p>

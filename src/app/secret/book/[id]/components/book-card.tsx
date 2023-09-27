@@ -26,7 +26,7 @@ export default function BookCard({ book }: BookCardProps) {
                     />
                 </div>
                 <div className='mt-4 flex flex-col gap-2 items-start max-w-[160px]'>
-                    <h1 className='text-lg leading-5 hyphens-auto' lang='es-MX'>
+                    <h1 className='text-lg leading-5 hyphens-auto line-clamp-3' lang='es-MX'>
                         {book.name}
                     </h1>
                     <p className='text-sm text-slate-400'>

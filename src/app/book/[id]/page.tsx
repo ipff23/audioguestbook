@@ -73,8 +73,10 @@ export default async function Book({ params: { id } }: BookProps) {
                     </div>
 
                     <div className='flex flex-col items-center mb-6'>
-                        <h1 className='text-xl'>{book.name}</h1>
-                        <p className='text-sm'>{format(new Date(book.date), 'MMMM do, yyyy')}</p>
+                        <h1 className='text-xl break-all line-clamp-2 text-center'>{book.name}</h1>
+                        <p className='text-sm text-center'>
+                            {format(new Date(book.date), 'MMMM do, yyyy')}
+                        </p>
                     </div>
 
                     <div className='flex flex-col mt-4 gap-1 w-full'>
