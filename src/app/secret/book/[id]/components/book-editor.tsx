@@ -4,17 +4,20 @@ import { useRouter } from 'next/navigation';
 import { useRequest } from 'ahooks';
 
 import { Button } from '@nextui-org/button';
+import { Popover, PopoverTrigger, PopoverContent } from '@nextui-org/popover';
 
 import { type Book, type Track } from '@/types/books';
 
 import { useEmitter } from '@/providers/bus-provider';
-import removeTracks from '@/actions/remove-tracks';
+import removeTracksAction from '@/actions/remove-tracks';
+import removeBookAction from '@/actions/remove-book';
 
 import SaveIcon from '@/icons/floppy-disk-regular';
 import UndoIcon from '@/icons/undo-regular';
 
 import BookCard from './book-card';
 import TrackList, { type FileItem } from './track-list';
+import TrashIcon from '@/icons/trash-regular';
 
 export interface BookEditorProps {
     book: Book & { tracks: Track[] };
@@ -28,18 +31,33 @@ const getRemovedItems = (originalItems: Track[], modifiedItems: FileItem[]) => {
 };
 
 const removeTracksService = async (tracksIds: string[]) => {
-    await removeTracks(tracksIds);
+    await removeTracksAction(tracksIds);
+};
+
+const removeBookService = async (bookId: string) => {
+    await removeBookAction(bookId);
 };
 
 export default function BookEditor({ book }: BookEditorProps) {
     const router = useRouter();
     const [saving, setSaving] = useState<boolean>(false);
+    const [removingBook, setSemovingBook] = useState<boolean>(false);
     const [trackItems, setTrackItems] = useState<FileItem[]>([]);
 
     const emitSave = useEmitter('book-editor:save');
 
-    const { run, loading: removing } = useRequest(removeTracksService, {
+    const { run: removeTracks, loading: removingTracks } = useRequest(removeTracksService, {
         manual: true,
+        onError: error => {
+            console.log({ error });
+        },
+    });
+
+    const { run: removeBook } = useRequest(removeBookService, {
+        manual: true,
+        onSuccess: () => {
+            router.push('/secret');
+        },
         onError: error => {
             console.log({ error });
         },
@@ -50,11 +68,16 @@ export default function BookEditor({ book }: BookEditorProps) {
         setSaving(true);
 
         const itemsToRemove = getRemovedItems(book.tracks, trackItems);
-        run(itemsToRemove);
+        removeTracks(itemsToRemove);
     };
 
     const handleRestore = () => {
         router.refresh();
+    };
+
+    const handleDelete = () => {
+        setSemovingBook(true);
+        removeBook(book.id);
     };
 
     const handleLoading = (loading: boolean) => {
@@ -74,7 +97,7 @@ export default function BookEditor({ book }: BookEditorProps) {
                     color='primary'
                     endContent={<SaveIcon />}
                     onClick={handleSave}
-                    isDisabled={(saving && removing) || trackItems.length === 0}
+                    isDisabled={(saving && removingTracks) || trackItems.length === 0}
                     isLoading={saving}
                 >
                     Guardar
@@ -88,11 +111,35 @@ export default function BookEditor({ book }: BookEditorProps) {
                 >
                     Restaurar
                 </Button>
+
+                <Popover placement='bottom' backdrop='blur'>
+                    <PopoverTrigger>
+                        <Button color='default' endContent={<TrashIcon />}>
+                            Borrar
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className='flex flex-col justify-start items-start gap-4 p-6 w-[240px]'>
+                        <p className='w-full text-left'>
+                            Al borrar se perderán todos los datos y no podrán ser recuperados.
+                        </p>
+                        <p className='w-full text-left font-semibold'>¿Deseas continuar?</p>
+                        <Button
+                            color='danger'
+                            endContent={<TrashIcon />}
+                            onClick={handleDelete}
+                            isLoading={removingBook}
+                            isDisabled={removingBook}
+                            fullWidth
+                        >
+                            Confirmar
+                        </Button>
+                    </PopoverContent>
+                </Popover>
             </div>
 
             <TrackList
                 bookId={book.id}
-                disabled={saving && removing}
+                disabled={saving && removingTracks}
                 tracks={book.tracks}
                 onChange={handleChange}
                 onLoading={handleLoading}

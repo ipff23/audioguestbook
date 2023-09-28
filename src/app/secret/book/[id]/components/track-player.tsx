@@ -19,9 +19,11 @@ export interface TrackPlayerProps {
 }
 
 export default function TrackPlayer({ id, name, source, onRemove }: TrackPlayerProps) {
-    const { buffering, playing, currentTime, duration, play, pause, load } = useTrack();
-
     const emitPlay = useEmitter('play', id);
+
+    const { buffering, playing, currentTime, duration, play, pause, load, seek } = useTrack({
+        onPlay: () => emitPlay(),
+    });
 
     useListener('play', (playId: string) => {
         if (playId !== id) {
@@ -47,6 +49,10 @@ export default function TrackPlayer({ id, name, source, onRemove }: TrackPlayerP
         onRemove?.(id);
     };
 
+    const handleSeek = ({ value }: { progress: number; value: number }) => {
+        seek(value, true);
+    };
+
     return (
         <div className='w-full flex flex-row items-center gap-3 p-2 bg-slate-100/70 dark:bg-slate-500/50 rounded-lg'>
             <Button
@@ -59,7 +65,12 @@ export default function TrackPlayer({ id, name, source, onRemove }: TrackPlayerP
                 <PlayPauseIcon buffering={buffering} playing={playing} />
             </Button>
 
-            <TrackSlider name={name} currentTime={currentTime} duration={duration} />
+            <TrackSlider
+                name={name}
+                currentTime={currentTime}
+                duration={duration}
+                onChange={handleSeek}
+            />
 
             <Button variant='flat' color='danger' onClick={handleRemove} isIconOnly>
                 <TrashIcon />

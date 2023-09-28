@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { Card, CardBody } from '@nextui-org/card';
 import { Image } from '@nextui-org/image';
 import { Button } from '@nextui-org/button';
-import { Progress } from '@nextui-org/progress';
+import { Badge } from '@nextui-org/badge';
 
 import MainContainer from '@/components/main-container';
 import Logo from '@/components/logo';
@@ -16,6 +16,7 @@ import SkipForwardFill from '@/icons/skip-forward-fill';
 import ShuffleFill from '@/icons/shuffle-fill';
 import QueueFill from '@/icons/queue-fill';
 import ExportRegular from '@/icons/export-regular';
+import TrackBar from './components/track-bar';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,7 +36,7 @@ export default async function Book({ params: { id } }: BookProps) {
         <MainContainer
             background={book.cover}
             classNames={{
-                container: 'w-[460px] min-h-screen justify-center items-center',
+                container: 'w-[460px] min-h-screen justify-center items-center select-none',
             }}
         >
             <Card
@@ -72,7 +73,7 @@ export default async function Book({ params: { id } }: BookProps) {
                         />
                     </div>
 
-                    <div className='flex flex-col items-center mb-6'>
+                    <div className='select-text flex flex-col items-center mb-6'>
                         <h1 className='text-xl break-all line-clamp-2 text-center'>{book.name}</h1>
                         <p className='text-sm text-center'>
                             {format(new Date(book.date), 'MMMM do, yyyy')}
@@ -80,16 +81,8 @@ export default async function Book({ params: { id } }: BookProps) {
                     </div>
 
                     <div className='flex flex-col mt-4 gap-1 w-full'>
-                        <Progress
-                            aria-label='Music progress'
-                            classNames={{
-                                indicator: 'bg-default-800 dark:bg-white',
-                                track: 'bg-default-500/30',
-                            }}
-                            color='default'
-                            size='sm'
-                            value={33}
-                        />
+                        <TrackBar value={33} />
+
                         <div className='flex justify-between'>
                             <p className='text-small'>1:23</p>
                             <p className='text-small text-foreground/50'>4:32</p>
@@ -97,14 +90,17 @@ export default async function Book({ params: { id } }: BookProps) {
                     </div>
 
                     <div className='flex w-full items-center justify-center gap-2 mb-4'>
-                        <Button
-                            isIconOnly
-                            className='data-[hover]:bg-foreground/10'
-                            radius='full'
-                            variant='light'
-                        >
-                            <RepeatOnceFill className='text-foreground/80 text-2xl' />
-                        </Button>
+                        <Badge content='' color='success' shape='circle' placement='top-right'>
+                            <Button
+                                isIconOnly
+                                className='data-[hover]:bg-foreground/10'
+                                radius='full'
+                                variant='light'
+                            >
+                                <RepeatOnceFill className='text-foreground/80 text-2xl' />
+                            </Button>
+                        </Badge>
+
                         <Button
                             isIconOnly
                             className='w-[52px] h-[52px] data-[hover]:bg-foreground/10'
@@ -129,14 +125,17 @@ export default async function Book({ params: { id } }: BookProps) {
                         >
                             <SkipForwardFill className='text-2xl' />
                         </Button>
-                        <Button
-                            isIconOnly
-                            className='data-[hover]:bg-foreground/10'
-                            radius='full'
-                            variant='light'
-                        >
-                            <ShuffleFill className='text-foreground/80 text-2xl' />
-                        </Button>
+
+                        <Badge content='' color='success' shape='circle' placement='top-right'>
+                            <Button
+                                isIconOnly
+                                className='data-[hover]:bg-foreground/10'
+                                radius='full'
+                                variant='light'
+                            >
+                                <ShuffleFill className='text-foreground/80 text-2xl' />
+                            </Button>
+                        </Badge>
                     </div>
                 </CardBody>
             </Card>

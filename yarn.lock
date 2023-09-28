@@ -2762,6 +2762,11 @@
     "@typescript-eslint/types" "6.7.2"
     eslint-visitor-keys "^3.4.1"
 
+"@uidotdev/usehooks@^2.3.1-experimental.1":
+  version "2.3.1-experimental.1"
+  resolved "https://registry.yarnpkg.com/@uidotdev/usehooks/-/usehooks-2.3.1-experimental.1.tgz#fbbe58bd3158a2a446a1370fcaf0acf354eab7d6"
+  integrity sha512-QTJf+BOA3TGqm0Gg7ZLF7vZalqcZdcL0SfPgxwaG9uxarlfdFzHF/cW2ogQpKiaNCt7b6KYkrWNEXZv7bUqRCg==
+
 "@use-it/event-listener@^0.1.2":
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/@use-it/event-listener/-/event-listener-0.1.7.tgz#443a9b6df87f2f2961b74d42997ce723a7078623"
@@ -5694,13 +5699,13 @@ queue-microtask@^1.2.2:
   resolved "https://registry.yarnpkg.com/queue-microtask/-/queue-microtask-1.2.3.tgz#4929228bbc724dfac43e0efb058caf7b6cfb6243"
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
-react-dom@18.2.0:
-  version "18.2.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
-  integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
+react-dom@^0.0.0-experimental-f81c0f1ed-20230927:
+  version "0.0.0-experimental-f81c0f1ed-20230927"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-0.0.0-experimental-f81c0f1ed-20230927.tgz#0cada2b410078355ef603bc871f3c8eccf0a4699"
+  integrity sha512-ArAVWT2hkI2qspC8WEyrOBdmqR/tHtdPdiUsN/12OyXc1fXI29NMEWsDZ/MTs3XA3lRi/uQICvV/06KUsqRJxw==
   dependencies:
     loose-envify "^1.1.0"
-    scheduler "^0.23.0"
+    scheduler "0.0.0-experimental-f81c0f1ed-20230927"
 
 react-is@^16.13.1:
   version "16.13.1"
@@ -5744,10 +5749,10 @@ react-textarea-autosize@^8.5.2:
     use-composed-ref "^1.3.0"
     use-latest "^1.2.1"
 
-react@18.2.0:
-  version "18.2.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
-  integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
+react@^0.0.0-experimental-f81c0f1ed-20230927:
+  version "0.0.0-experimental-f81c0f1ed-20230927"
+  resolved "https://registry.yarnpkg.com/react/-/react-0.0.0-experimental-f81c0f1ed-20230927.tgz#6d5b9545fe3907cff5fee19c844e0cec780f810e"
+  integrity sha512-0O4TE4oSOd12GfXe1cCJWYz5/sFjP2WGqO9CzpqXT4WHtF+ChIyxeT8KSLGQSOQF85JCmsXw+F5J5QXwHH80rQ==
   dependencies:
     loose-envify "^1.1.0"
 
@@ -5918,10 +5923,10 @@ safe-regex-test@^1.0.0:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-scheduler@^0.23.0:
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.23.0.tgz#ba8041afc3d30eb206a487b6b384002e4e61fdfe"
-  integrity sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==
+scheduler@0.0.0-experimental-f81c0f1ed-20230927:
+  version "0.0.0-experimental-f81c0f1ed-20230927"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.0.0-experimental-f81c0f1ed-20230927.tgz#a148660650155ac330775800af2363577565cca2"
+  integrity sha512-pqKy+fhGCnrofaysuquBxL5XaobOzxhQY7ibdLVwRThrlIYEsxZla3i+8iX3a3YQsurCY+Frc5XZiWpkQhf6hA==
   dependencies:
     loose-envify "^1.1.0"
 

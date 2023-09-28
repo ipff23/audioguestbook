@@ -1,5 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 
+export interface TrackArgs {
+    onProgress?: (...args: any[]) => void;
+    onDurationChange?: (...args: any[]) => void;
+    onPlay?: (...args: any[]) => void;
+    onPause?: (...args: any[]) => void;
+    onEnded?: (...args: any[]) => void;
+    onBuffering?: (...args: any[]) => void;
+    onResume?: (...args: any[]) => void;
+}
+
 export interface Track {
     playing: boolean;
     buffering: boolean;
@@ -8,6 +18,7 @@ export interface Track {
     load: (url: string) => void;
     play: (url?: string) => void;
     pause: () => void;
+    seek: (time: number, playOnSeek?: boolean) => void;
 }
 
 export const defaultTrackPayload = {
@@ -18,9 +29,18 @@ export const defaultTrackPayload = {
     load: (url: string) => {},
     play: (url?: string) => {},
     pause: () => {},
+    seek: (time: number, playOnSeek: boolean = false) => {},
 };
 
-export const useTrack = (): Track => {
+export const useTrack = ({
+    onProgress,
+    onDurationChange,
+    onPlay,
+    onPause,
+    onEnded,
+    onBuffering,
+    onResume,
+}: TrackArgs): Track => {
     const $track = useRef<HTMLAudioElement>(document.createElement('audio'));
 
     const [playing, setPlaying] = useState<boolean>(false);
@@ -56,34 +76,51 @@ export const useTrack = (): Track => {
         $track.current?.pause();
     };
 
-    const handleDurationChange = () => {
+    const seek = (time: number, playOnSeek: boolean = false) => {
+        if (!Number.isNaN(time) && Number.isFinite(time)) {
+            $track.current.currentTime = time;
+
+            if (playOnSeek) {
+                $track.current?.play();
+            }
+        }
+    };
+
+    const handleDurationChange = (...args: any[]) => {
         setDuration($track.current?.duration);
+        onDurationChange?.(...args);
     };
 
-    const handleProgress = () => {
+    const handleProgress = (...args: any[]) => {
         setCurrentTime($track.current?.currentTime);
+        onProgress?.(...args);
     };
 
-    const handlePlay = () => {
+    const handlePlay = (...args: any[]) => {
         setPlaying(true);
+        onPlay?.(...args);
     };
 
-    const handlePause = () => {
+    const handlePause = (...args: any[]) => {
         setPlaying(false);
+        onPause?.(...args);
     };
 
-    const handleEnded = () => {
+    const handleEnded = (...args: any[]) => {
         setPlaying(false);
+        onEnded?.(...args);
     };
 
-    const handleBuffer = () => {
+    const handleBuffer = (...args: any[]) => {
         setBuffering(true);
         setPlaying(false);
+        onBuffering?.(...args);
     };
 
-    const handleResume = () => {
+    const handleResume = (...args: any[]) => {
         setBuffering(false);
         setPlaying(true);
+        onResume?.(...args);
     };
 
     const bindEvents = () => {
@@ -122,5 +159,6 @@ export const useTrack = (): Track => {
         load,
         play,
         pause,
+        seek,
     };
 };
