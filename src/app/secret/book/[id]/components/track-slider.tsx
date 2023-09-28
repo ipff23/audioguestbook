@@ -1,5 +1,5 @@
 import { secondsToMin } from '@/helpers/strings';
-import useTrackBar from '@/hooks/use-track-bar';
+import { useTrackBar } from '@/hooks/use-track-bar';
 import { useRef } from 'react';
 
 export interface TrackSliderProps {

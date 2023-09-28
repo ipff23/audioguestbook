@@ -1,7 +1,7 @@
 import { type RefObject, useState, useEffect } from 'react';
-import { useEventListener, useMouse } from '@uidotdev/usehooks';
+import { useMouse } from '@uidotdev/usehooks';
 import { getPercent, clamp, getFromPercent, awayTo } from '@/helpers/maths';
-
+import { useWindowEventListener } from './use-window-event-listener';
 export interface TrackBarArgs {
     trackRef: RefObject<HTMLDivElement>;
     minValue?: number;
@@ -18,7 +18,7 @@ const getProgressFromClick = (trackRect?: DOMRect, clickX?: number): number => {
     return clamp(progress, 0, 100);
 };
 
-export default function useTrackBar({
+export function useTrackBar({
     trackRef,
     minValue = 0,
     maxValue = 100,
@@ -60,7 +60,7 @@ export default function useTrackBar({
         }
     }, [mouse, mouseDown]);
 
-    useEventListener(window as any, 'mouseup', handleMouseUp);
+    useWindowEventListener('mouseup', handleMouseUp);
 
     useEffect(() => {
         const updatedProgress = getPercent(value, maxValue - minValue);

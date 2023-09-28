@@ -1,7 +1,7 @@
 'use client';
 import { useRef } from 'react';
 import { cn } from '@/helpers/utils';
-import useTrackBar, { type TrackBarArgs } from '@/hooks/use-track-bar';
+import { type TrackBarArgs, useTrackBar } from '@/hooks/use-track-bar';
 
 interface TrackBarClassNames {
     track?: string;
