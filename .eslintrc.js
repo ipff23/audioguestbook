@@ -16,6 +16,7 @@ module.exports = {
         'plugin:react/recommended',
         'plugin:react-hooks/recommended',
         'next',
+        'next/core-web-vitals',
     ],
     plugins: ['@typescript-eslint', 'react'],
     rules: {

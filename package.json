@@ -6,7 +6,7 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "lint": "eslint . --fix --quiet",
+        "lint": "next lint --fix --quiet",
         "format": "prettier . --write --log-level=warn",
         "gen:types": "npx supabase gen types typescript --project-id $(cat ./.supabaserc) > ./src/types/database.ts"
     },
