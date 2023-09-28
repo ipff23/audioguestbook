@@ -1,7 +1,7 @@
 'use client';
 import { useRef } from 'react';
 import { cn } from '@/helpers/utils';
-import { type TrackBarArgs, useTrackBar } from '@/hooks/use-track-bar';
+import { useTrackBar } from '@/hooks/use-track-bar';
 
 interface TrackBarClassNames {
     track?: string;
@@ -9,8 +9,12 @@ interface TrackBarClassNames {
     thumb?: string;
 }
 
-export interface TrackBarProps extends TrackBarArgs {
+export interface TrackBarProps {
+    minValue?: number;
+    maxValue?: number;
+    value?: number;
     classNames?: TrackBarClassNames;
+    onChange?: ({ progress, value }: { progress: number; value: number }) => void;
 }
 
 export default function TrackBar({
