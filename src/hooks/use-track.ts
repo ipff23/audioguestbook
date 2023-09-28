@@ -40,7 +40,7 @@ export const useTrack = ({
     onEnded,
     onBuffering,
     onResume,
-}: TrackArgs): Track => {
+}: TrackArgs = {}): Track => {
     const $track = useRef<HTMLAudioElement>(document.createElement('audio'));
 
     const [playing, setPlaying] = useState<boolean>(false);
