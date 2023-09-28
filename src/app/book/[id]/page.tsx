@@ -5,18 +5,13 @@ import { format } from 'date-fns';
 import { Card, CardBody } from '@nextui-org/card';
 import { Image } from '@nextui-org/image';
 import { Button } from '@nextui-org/button';
-import { Badge } from '@nextui-org/badge';
 
 import MainContainer from '@/components/main-container';
 import Logo from '@/components/logo';
-import RepeatOnceFill from '@/icons/repeat-once-fill';
-import SkipBackFill from '@/icons/skip-back-fill';
-import PauseFill from '@/icons/pause-fill';
-import SkipForwardFill from '@/icons/skip-forward-fill';
-import ShuffleFill from '@/icons/shuffle-fill';
 import QueueFill from '@/icons/queue-fill';
 import ExportRegular from '@/icons/export-regular';
-import TrackBar from './components/track-bar';
+
+import Player from './components/player';
 
 export const dynamic = 'force-dynamic';
 
@@ -80,63 +75,7 @@ export default async function Book({ params: { id } }: BookProps) {
                         </p>
                     </div>
 
-                    <div className='flex flex-col mt-4 gap-1 w-full'>
-                        <TrackBar value={33} />
-
-                        <div className='flex justify-between'>
-                            <p className='text-small'>1:23</p>
-                            <p className='text-small text-foreground/50'>4:32</p>
-                        </div>
-                    </div>
-
-                    <div className='flex w-full items-center justify-center gap-2 mb-4'>
-                        <Badge content='' color='success' shape='circle' placement='top-right'>
-                            <Button
-                                isIconOnly
-                                className='data-[hover]:bg-foreground/10'
-                                radius='full'
-                                variant='light'
-                            >
-                                <RepeatOnceFill className='text-foreground/80 text-2xl' />
-                            </Button>
-                        </Badge>
-
-                        <Button
-                            isIconOnly
-                            className='w-[52px] h-[52px] data-[hover]:bg-foreground/10'
-                            radius='full'
-                            variant='light'
-                        >
-                            <SkipBackFill className='text-2xl' />
-                        </Button>
-                        <Button
-                            isIconOnly
-                            className='w-[80px] h-[80px] data-[hover]:bg-foreground/10'
-                            radius='full'
-                            variant='light'
-                        >
-                            <PauseFill className='text-4xl' />
-                        </Button>
-                        <Button
-                            isIconOnly
-                            className='w-[52px] h-[52px] data-[hover]:bg-foreground/10'
-                            radius='full'
-                            variant='light'
-                        >
-                            <SkipForwardFill className='text-2xl' />
-                        </Button>
-
-                        <Badge content='' color='success' shape='circle' placement='top-right'>
-                            <Button
-                                isIconOnly
-                                className='data-[hover]:bg-foreground/10'
-                                radius='full'
-                                variant='light'
-                            >
-                                <ShuffleFill className='text-foreground/80 text-2xl' />
-                            </Button>
-                        </Badge>
-                    </div>
+                    <Player />
                 </CardBody>
             </Card>
         </MainContainer>

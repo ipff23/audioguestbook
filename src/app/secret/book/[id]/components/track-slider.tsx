@@ -1,6 +1,6 @@
-import { secondsToMin } from '@/helpers/strings';
-import { useTrackBar } from '@/hooks/use-track-bar';
 import { useRef } from 'react';
+import { useTrackBar } from '@/hooks/use-track-bar';
+import { secondsToMin } from '@/helpers/strings';
 
 export interface TrackSliderProps {
     name: string;
