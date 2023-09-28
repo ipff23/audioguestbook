@@ -21,9 +21,11 @@ export const dynamic = 'force-dynamic';
 
 export interface BookProps {
     params: { id: string };
+    // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
+    searchParams: { [key: string]: string | string[] | undefined };
 }
 
-export default async function Book({ params: { id } }: BookProps) {
+export default async function Book({ params: { id }, searchParams }: BookProps) {
     const supabase = createServerComponentClient({ cookies });
     const { data: book } = (await supabase
         .from('books')
@@ -31,9 +33,11 @@ export default async function Book({ params: { id } }: BookProps) {
         .eq('nanoid', id)
         .single()) as SupabaseBook;
 
+    const debug = searchParams?.debug !== undefined;
+
     return (
         <>
-            <JsonViewer data={book} />
+            {debug && <JsonViewer data={book} />}
             <MainContainer
                 background={book.cover}
                 classNames={{
