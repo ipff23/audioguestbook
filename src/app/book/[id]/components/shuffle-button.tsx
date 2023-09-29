@@ -1,7 +1,7 @@
 import { Button } from '@nextui-org/button';
 import { Badge } from '@nextui-org/badge';
 
-import ShuffleFill from '@/icons/shuffle-fill';
+import ShuffleIcon from '@/icons/shuffle-fill';
 
 export interface ShuffleButtonProps {
     shuffling?: boolean;
@@ -29,7 +29,7 @@ export default function ShuffleButton({ shuffling, onChange }: ShuffleButtonProp
                 onClick={handleClick}
                 isIconOnly
             >
-                <ShuffleFill className='text-foreground/80 text-2xl' />
+                <ShuffleIcon className='text-foreground/80 text-2xl' />
             </Button>
         </Badge>
     );

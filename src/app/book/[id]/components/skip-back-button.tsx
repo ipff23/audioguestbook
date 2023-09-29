@@ -1,6 +1,6 @@
 import { Button } from '@nextui-org/button';
 
-import SkipBackFill from '@/icons/skip-back-fill';
+import SkipBackIcon from '@/icons/skip-back-fill';
 
 export interface SkipBackButtonProps {
     onClick?: () => void;
@@ -15,7 +15,7 @@ export default function SkipBackButton({ onClick }: SkipBackButtonProps) {
             onClick={onClick}
             isIconOnly
         >
-            <SkipBackFill className='text-2xl' />
+            <SkipBackIcon className='text-2xl' />
         </Button>
     );
 }

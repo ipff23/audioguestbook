@@ -1,4 +1,5 @@
 'use client';
+import { useEffect } from 'react';
 
 import { useTrackList } from '@/providers/track-list-provider';
 import { type Track as TrackEnitity } from '@/types/books';
@@ -10,7 +11,6 @@ import RepeatButton from './repeat-button';
 import ShuffleButton from './shuffle-button';
 import SkipBackButton from './skip-back-button';
 import SkipForwardButton from './skip-forward-button';
-import { useEffect } from 'react';
 
 export interface PlayerProps {
     trackList: TrackEnitity[];

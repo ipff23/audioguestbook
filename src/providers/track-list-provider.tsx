@@ -22,6 +22,7 @@ export interface TrackList {
     start: () => void;
     load: (url: string) => void;
     play: (url?: string) => void;
+    playAt: (trackNo: number) => void;
     pause: () => void;
     seek: (time: number, playOnSeek?: boolean) => void;
     skipBack: () => void;
@@ -43,6 +44,7 @@ export const defaultTrackPayload = {
     start: () => {},
     load: (url: string) => {},
     play: (url?: string) => {},
+    playAt: (trackNo: number) => {},
     pause: () => {},
     seek: (time: number, playOnSeek: boolean = false) => {},
     skipBack: () => {},
@@ -152,6 +154,14 @@ const useInternalTrackList = () => {
         historyManager.push([0, firstTrack]);
         track.play(firstTrack.url);
     };
+    const playAt = (trackNo: number) => {
+        console.log(trackNo);
+        const selectedTrack = tracksManager.get(trackNo) as TrackEnitity;
+        setCurrentTrack(selectedTrack);
+        setCurrentTrackNo(trackNo);
+        historyManager.push([trackNo, selectedTrack]);
+        track.play(selectedTrack.url);
+    };
 
     const handleTrackEnded = () => {
         playNext();
@@ -171,6 +181,7 @@ const useInternalTrackList = () => {
         start,
         load,
         play,
+        playAt,
         pause,
         seek,
         skipBack,

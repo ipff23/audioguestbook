@@ -1,6 +1,6 @@
 import { Button } from '@nextui-org/button';
 
-import SkipForwardFill from '@/icons/skip-forward-fill';
+import SkipForwardIcon from '@/icons/skip-forward-fill';
 
 export interface SkipForwardButtonProps {
     onClick?: () => void;
@@ -15,7 +15,7 @@ export default function SkipForwardButton({ onClick }: SkipForwardButtonProps) {
             onClick={onClick}
             isIconOnly
         >
-            <SkipForwardFill className='text-2xl' />
+            <SkipForwardIcon className='text-2xl' />
         </Button>
     );
 }
