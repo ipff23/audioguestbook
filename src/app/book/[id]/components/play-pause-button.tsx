@@ -36,7 +36,10 @@ export default function PlayPauseButton({
     ) : (
         <Spinner
             size='lg'
-            classNames={{ circle1: 'border-4 border-b-white', circle2: 'border-4 border-b-white' }}
+            classNames={{
+                circle1: 'border-4 border-b-black dark:border-b-white',
+                circle2: 'border-4 border-b-black dark:border-4 border-b-white',
+            }}
         />
     );
 

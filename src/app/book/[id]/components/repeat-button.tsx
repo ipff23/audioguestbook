@@ -1,14 +1,10 @@
 import { Button } from '@nextui-org/button';
 import { Badge } from '@nextui-org/badge';
 
+import { RepeatState } from '@/types/player';
+
 import RepeatOnceIcon from '@/icons/repeat-once-fill';
 import RepeatIcon from '@/icons/repeat-fill';
-
-export enum RepeatState {
-    RepeatAll,
-    RepeatOne,
-    NoRepeat,
-}
 
 export interface RepeatButtonProps {
     state?: RepeatState;

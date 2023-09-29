@@ -29,7 +29,7 @@ export default async function Book({ params: { id }, searchParams }: BookProps) 
     const supabase = createServerComponentClient({ cookies });
     const { data: book } = (await supabase
         .from('books')
-        .select('*, tracks(*)')
+        .select(`*, tracks!inner(*)`)
         .eq('nanoid', id)
         .single()) as SupabaseBook;
 
@@ -87,7 +87,7 @@ export default async function Book({ params: { id }, searchParams }: BookProps) 
                             </p>
                         </div>
 
-                        <Player trackUrl={book.tracks[0].url} />
+                        <Player trackList={book.tracks} />
                     </CardBody>
                 </Card>
             </MainContainer>

@@ -1,12 +1,15 @@
 'use client';
 import { NextUIProvider } from '@nextui-org/react';
-import BusProvider from '@/providers/bus-provider';
 import { type ChildrenContainer } from '@/types/common';
+import BusProvider from '@/providers/bus-provider';
+import TrackListProvider from '@/providers/track-list-provider';
 
 export function Providers({ children }: ChildrenContainer) {
     return (
         <BusProvider>
-            <NextUIProvider>{children}</NextUIProvider>
+            <TrackListProvider>
+                <NextUIProvider>{children}</NextUIProvider>
+            </TrackListProvider>
         </BusProvider>
     );
 }

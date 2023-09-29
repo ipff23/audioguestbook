@@ -42,8 +42,8 @@ export function useTrackBar({
         setProgress(newProgress);
     };
 
-    const handleClick = (ev: React.MouseEvent<HTMLDivElement>) => {
-        updateProgress(ev.clientX);
+    const handleClick = () => {
+        // updateProgress(ev.clientX);
     };
 
     const handleMouseDown = () => {
@@ -55,29 +55,32 @@ export function useTrackBar({
     };
 
     useEffect(() => {
+        if (!mouseDown) {
+            const newValue = getFromPercent(progress, maxValue);
+
+            if (awayTo(newValue, value, 3)) {
+                onChange?.({
+                    progress,
+                    value: newValue,
+                });
+            }
+        }
+    }, [mouseDown]);
+
+    useWindowEventListener('mouseup', handleMouseUp);
+
+    useEffect(() => {
         if (mouseDown) {
             updateProgress(mouse.x);
         }
     }, [mouse, mouseDown]);
 
-    useWindowEventListener('mouseup', handleMouseUp);
-
     useEffect(() => {
-        const updatedProgress = getPercent(value, maxValue - minValue);
-        setProgress(updatedProgress);
-    }, [value, maxValue, minValue]);
-
-    useEffect(() => {
-        const newValue = getFromPercent(progress, maxValue);
-
-        if (awayTo(newValue, value, 2)) {
-            console.log({ newValue, value });
-            onChange?.({
-                progress,
-                value: newValue,
-            });
+        if (!mouseDown) {
+            const updatedProgress = getPercent(value, maxValue - minValue);
+            setProgress(updatedProgress);
         }
-    }, [progress, value]);
+    }, [value, maxValue, minValue]);
 
     return {
         progress,

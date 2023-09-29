@@ -19,6 +19,7 @@ export interface Track {
     play: (url?: string) => void;
     pause: () => void;
     seek: (time: number, playOnSeek?: boolean) => void;
+    $track: HTMLAudioElement;
 }
 
 export const defaultTrackPayload = {
@@ -58,10 +59,8 @@ export const useTrack = ({
     };
 
     const load = (url: string) => {
-        if (!$track.current?.src.includes(url)) {
-            $track.current?.setAttribute('src', url);
-            $track.current?.load();
-        }
+        $track.current?.setAttribute('src', url);
+        $track.current?.load();
     };
 
     // eslint-disable-next-line @typescript-eslint/promise-function-async
@@ -160,5 +159,6 @@ export const useTrack = ({
         play,
         pause,
         seek,
+        $track: $track.current,
     };
 };

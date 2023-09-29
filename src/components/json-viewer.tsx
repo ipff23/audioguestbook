@@ -3,7 +3,7 @@ import ReactJson from 'react-json-view';
 
 export interface JsonViewerProps {
     data?: any;
-    collapsed?: boolean;
+    expanded?: boolean;
 }
 
 const REACT_JSON_THEME = 'ocean';
@@ -12,14 +12,14 @@ const REACT_JSON_STYLES = {
     fontSize: '0.778rem',
 };
 
-export default function JsonViewer({ data = {}, collapsed = true }: JsonViewerProps) {
+export default function JsonViewer({ data = {}, expanded }: JsonViewerProps) {
     return (
         <div className='block max-w-full p-4 bg-slate-900'>
             <ReactJson
                 src={data}
                 theme={REACT_JSON_THEME}
                 style={REACT_JSON_STYLES}
-                collapsed={collapsed}
+                collapsed={!expanded}
             />
         </div>
     );
