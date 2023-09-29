@@ -155,7 +155,6 @@ const useInternalTrackList = () => {
         track.play(firstTrack.url);
     };
     const playAt = (trackNo: number) => {
-        console.log(trackNo);
         const selectedTrack = tracksManager.get(trackNo) as TrackEnitity;
         setCurrentTrack(selectedTrack);
         setCurrentTrackNo(trackNo);
