@@ -11,6 +11,7 @@ import Logo from '@/components/logo';
 import QueueIcon from '@/icons/queue-fill';
 
 import Player from './player';
+import { cn } from '@/helpers/utils';
 
 export interface MainPlayerProps {
     book: BookEntity & {
@@ -21,7 +22,10 @@ export interface MainPlayerProps {
 export default function MainPlayer({ book }: MainPlayerProps) {
     return (
         <Card
-            className='rounded-r-none w-[400px] max-h-min flex-none border-none bg-background/60 dark:bg-default-100/50 transition-all'
+            className={cn(
+                ' w-[400px] max-h-min flex-none border-none bg-background/60 dark:bg-default-100/50 transition-all',
+                'md:rounded-r-none',
+            )}
             shadow='sm'
             isBlurred
         >

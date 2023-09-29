@@ -19,8 +19,10 @@ export default function TrackList({ book, trackList }: TrackListProps) {
             className={cn(
                 'rounded-l-none w-[400px] flex-none border-none bg-background/70 dark:bg-default-100/60 transition-all',
                 'animate-fade-right animate-once animate-duration-300 animate-ease-in-out animate-fill-both',
+                'hidden md:flex',
             )}
             shadow='sm'
+            isBlurred
         >
             <CardBody className='flex-col flex-nowrap'>
                 {trackList.map((track: TrackEnitity, index: number) => (
