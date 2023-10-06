@@ -17,7 +17,7 @@ import {
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 
-import { type EditableTrack } from '@/types/player';
+import { type EditableTrack } from '@/types/books';
 
 import SortableItem from './sortable-item';
 

@@ -2,7 +2,7 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
-import { type EditableTrack } from '@/types/player';
+import { type EditableTrack } from '@/types/books';
 
 import TrackItemManager from './track-item-manager';
 
