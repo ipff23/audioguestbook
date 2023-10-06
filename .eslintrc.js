@@ -32,6 +32,7 @@ module.exports = {
         '@typescript-eslint/strict-boolean-expressions': 'off',
         '@typescript-eslint/no-base-to-string': 'off',
         '@typescript-eslint/no-confusing-void-expression': 'off',
+        '@typescript-eslint/no-non-null-assertion': 'off',
     },
     settings: {
         react: {

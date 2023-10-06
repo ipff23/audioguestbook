@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
+import { type Track } from '@/types/books';
 import MainContainer from '@/components/main-container';
 import MainHeader from '@/components/main-header';
 
@@ -14,12 +15,23 @@ export interface BookProps {
 
 export default async function Book({ params: { id } }: BookProps) {
     const supabase = createServerComponentClient({ cookies });
-    const { data } = await supabase.from('books').select('*, tracks(*)').eq('id', id).single();
+    const { data: book } = await supabase
+        .from('books')
+        .select('*, tracks(*)')
+        .eq('id', id)
+        .single();
+
+    const tracks = book.tracks.sort((a: Track, b: Track) => a.index! - b.index!);
 
     return (
-        <MainContainer background={data.cover}>
+        <MainContainer
+            background={book.cover}
+            classNames={{
+                container: 'w-[48rem]',
+            }}
+        >
             <MainHeader />
-            <BookEditor book={data} />
+            <BookEditor book={book} tracks={tracks} />
         </MainContainer>
     );
 }

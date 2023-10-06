@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 
-import { type Book as BookEntity, type Track as TrackEnitity } from '@/types/books';
+import { type Book, type Track } from '@/types/books';
 
 import { Card, CardBody } from '@nextui-org/card';
 import { Image } from '@nextui-org/image';
@@ -14,12 +14,11 @@ import Player from './player';
 import { cn } from '@/helpers/utils';
 
 export interface MainPlayerProps {
-    book: BookEntity & {
-        tracks: TrackEnitity[];
-    };
+    book: Book;
+    trackList: Track[];
 }
 
-export default function MainPlayer({ book }: MainPlayerProps) {
+export default function MainPlayer({ book, trackList }: MainPlayerProps) {
     return (
         <Card
             className={cn(
@@ -54,7 +53,7 @@ export default function MainPlayer({ book }: MainPlayerProps) {
                     </p>
                 </div>
 
-                <Player trackList={book.tracks} />
+                <Player trackList={trackList} />
             </CardBody>
         </Card>
     );

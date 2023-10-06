@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
-import { type SupabaseBook } from '@/types/books';
+import { type Track, type SupabaseBook } from '@/types/books';
 
 import MainContainer from '@/components/main-container';
 import JsonViewer from '@/components/json-viewer';
@@ -25,6 +25,8 @@ export default async function Book({ params: { id }, searchParams }: BookProps) 
         .eq('nanoid', id)
         .single()) as SupabaseBook;
 
+    const tracks = book.tracks.sort((a: Track, b: Track) => a.index! - b.index!);
+
     const debug = searchParams?.debug !== undefined;
 
     return (
@@ -37,8 +39,8 @@ export default async function Book({ params: { id }, searchParams }: BookProps) 
                 }}
             >
                 <div className='flex flex-row'>
-                    <MainPlayer book={book} />
-                    <TrackList book={book} trackList={book.tracks} />
+                    <MainPlayer book={book} trackList={tracks} />
+                    <TrackList book={book} trackList={tracks} />
                 </div>
             </MainContainer>
         </>

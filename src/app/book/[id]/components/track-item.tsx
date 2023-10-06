@@ -68,7 +68,7 @@ export default function TrackItem({
             {!playing && (
                 <div className='flex items-center justify-center'>
                     <div className='group-hover:hidden flex w-[32px] h-[32px] items-center justify-center'>
-                        {trackNo + 1}
+                        {track.index! + 1}
                     </div>
                     <div className='group-hover:flex hidden w-[32px] h-[32px] items-center justify-center'>
                         <PlayIcon />
@@ -83,8 +83,8 @@ export default function TrackItem({
                 height={56}
             />
             <div className='flex flex-1 flex-col justify-center items-start'>
-                <h2 className='text-slate-800 dark:text-slate-200 text-md uppercase font-semibold'>
-                    Track #{trackNo + 1}
+                <h2 className='text-slate-800 break-all line-clamp-2 text-left dark:text-slate-200 text-md uppercase font-semibold'>
+                    {track.name}
                 </h2>
                 <p className='text-slate-600 dark:text-slate-400 text-sm'>{book.name}</p>
             </div>

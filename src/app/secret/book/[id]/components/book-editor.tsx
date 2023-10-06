@@ -1,31 +1,32 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useRequest } from 'ahooks';
+import { useRequest, useMap } from 'ahooks';
 
 import { Button } from '@nextui-org/button';
 import { Popover, PopoverTrigger, PopoverContent } from '@nextui-org/popover';
 
 import { type Book, type Track } from '@/types/books';
 
-import { useEmitter } from '@/providers/bus-provider';
+import { useEmitter, useListener } from '@/providers/bus-provider';
 import removeTracksAction from '@/actions/remove-tracks';
 import removeBookAction from '@/actions/remove-book';
 
 import SaveIcon from '@/icons/floppy-disk-regular';
 import UndoIcon from '@/icons/undo-regular';
+import TrashIcon from '@/icons/trash-regular';
 
 import BookCard from './book-card';
-import TrackList, { type FileItem } from './track-list';
-import TrashIcon from '@/icons/trash-regular';
+import DropZone from './drop-zone';
+import TrackList from './track-list-manager';
 
 export interface BookEditorProps {
     book: Book & { tracks: Track[] };
+    tracks: Track[];
 }
 
-const getRemovedItems = (originalItems: Track[], modifiedItems: FileItem[]) => {
+const getRemovedItems = (originalItems: Track[], modifiedIds: string[]) => {
     const originalIds = originalItems.map(i => i.nanoid);
-    const modifiedIds = modifiedItems.map(i => i.id);
     const removedItems = originalIds.filter(id => !modifiedIds.includes(id));
     return removedItems;
 };
@@ -38,16 +39,22 @@ const removeBookService = async (bookId: string) => {
     await removeBookAction(bookId);
 };
 
-export default function BookEditor({ book }: BookEditorProps) {
+export default function BookEditor({ book, tracks = [] }: BookEditorProps) {
     const router = useRouter();
-    const [saving, setSaving] = useState<boolean>(false);
+
+    const [modifiedIds, setModifiedIds] = useState<string[]>([]);
+    const [savingTracks, savingTracksManager] = useMap<string, boolean>();
+
+    const [saving, setSaving] = useState(false);
     const [removingBook, setSemovingBook] = useState<boolean>(false);
-    const [trackItems, setTrackItems] = useState<FileItem[]>([]);
 
     const emitSave = useEmitter('book-editor:save');
 
-    const { run: removeTracks, loading: removingTracks } = useRequest(removeTracksService, {
+    const { run: removeTracks } = useRequest(removeTracksService, {
         manual: true,
+        onSuccess: () => {
+            emitSave();
+        },
         onError: error => {
             console.log({ error });
         },
@@ -63,11 +70,13 @@ export default function BookEditor({ book }: BookEditorProps) {
         },
     });
 
-    const handleSave = () => {
-        emitSave();
-        setSaving(true);
+    const handleTrackListChane = (tracksIds: string[]) => {
+        setModifiedIds(tracksIds);
+    };
 
-        const itemsToRemove = getRemovedItems(book.tracks, trackItems);
+    const handleSave = () => {
+        setSaving(true);
+        const itemsToRemove = getRemovedItems(tracks, modifiedIds);
         removeTracks(itemsToRemove);
     };
 
@@ -75,18 +84,24 @@ export default function BookEditor({ book }: BookEditorProps) {
         router.refresh();
     };
 
-    const handleDelete = () => {
+    const handleDeleteBook = () => {
         setSemovingBook(true);
         removeBook(book.id);
     };
 
-    const handleLoading = (loading: boolean) => {
-        setSaving(loading);
-    };
+    useEffect(() => {
+        const modifiedTracks = tracks.map(track => track.nanoid);
+        setModifiedIds(modifiedTracks);
+    }, [tracks]);
 
-    const handleChange = (fileItems: FileItem[]) => {
-        setTrackItems(fileItems);
-    };
+    useEffect(() => {
+        const isLoading = Array.from(savingTracks).some(([, isSaving]) => isSaving);
+        setSaving(isLoading);
+    }, [savingTracks]);
+
+    useListener('track-item:saving', (nanoid, isSaving) => {
+        savingTracksManager.set(nanoid, isSaving);
+    });
 
     return (
         <div className='flex flex-row-reverse gap-4 items-start'>
@@ -97,7 +112,7 @@ export default function BookEditor({ book }: BookEditorProps) {
                     color='primary'
                     endContent={<SaveIcon />}
                     onClick={handleSave}
-                    isDisabled={(saving && removingTracks) || trackItems.length === 0}
+                    isDisabled={(saving && removingBook) || modifiedIds.length === 0}
                     isLoading={saving}
                 >
                     Guardar
@@ -126,7 +141,7 @@ export default function BookEditor({ book }: BookEditorProps) {
                         <Button
                             color='danger'
                             endContent={<TrashIcon />}
-                            onClick={handleDelete}
+                            onClick={handleDeleteBook}
                             isLoading={removingBook}
                             isDisabled={removingBook}
                             fullWidth
@@ -137,13 +152,10 @@ export default function BookEditor({ book }: BookEditorProps) {
                 </Popover>
             </div>
 
-            <TrackList
-                bookId={book.id}
-                disabled={saving && removingTracks}
-                tracks={book.tracks}
-                onChange={handleChange}
-                onLoading={handleLoading}
-            />
+            <div className='flex-1 flex flex-col gap-4'>
+                <DropZone disabled={saving && removingBook} />
+                <TrackList bookId={book.id} tracks={book.tracks} onChange={handleTrackListChane} />
+            </div>
         </div>
     );
 }

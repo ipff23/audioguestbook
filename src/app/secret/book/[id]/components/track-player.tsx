@@ -1,80 +1,63 @@
 'use client';
 import { useEffect } from 'react';
-
-import { Button } from '@nextui-org/button';
-
 import { useEmitter, useListener } from '@/providers/bus-provider';
 import { useTrack } from '@/hooks/use-track';
 
-import TrashIcon from '@/icons/trash-regular';
-
-import TrackSlider from './track-slider';
-import PlayPauseIcon from './play-pause-icon';
+import PlayPauseButton from './play-pause-button';
+import TrackBar from './track-bar';
+import TrackTimer from './track-timer';
 
 export interface TrackPlayerProps {
     id: string;
-    name: string;
-    source: string;
-    onRemove?: (id: string) => void;
+    source?: string;
+    onDurationChange?: (duration: number) => void;
 }
 
-export default function TrackPlayer({ id, name, source, onRemove }: TrackPlayerProps) {
-    const emitPlay = useEmitter('play', id);
+export default function TrackPlayer({ id, source, onDurationChange }: TrackPlayerProps) {
+    const emitPlay = useEmitter('book-editor:play', id);
 
     const { buffering, playing, currentTime, duration, play, pause, load, seek } = useTrack({
         onPlay: () => emitPlay(),
     });
 
-    useListener('play', (playId: string) => {
+    useListener('book-editor:play', (playId: string) => {
         if (playId !== id) {
             pause();
         }
     });
 
     useEffect(() => {
-        load(source);
-    }, []);
-
-    const playPause = () => {
-        if (playing) {
-            pause();
-        } else {
-            play();
-            emitPlay();
-        }
-    };
-
-    const handleRemove = () => {
         pause();
-        onRemove?.(id);
+        seek(0);
+
+        if (source) {
+            load(source);
+        }
+    }, [source]);
+
+    const handlePlay = () => {
+        play();
+        emitPlay();
     };
 
     const handleSeek = ({ value }: { progress: number; value: number }) => {
         seek(value, true);
     };
 
+    useEffect(() => {
+        onDurationChange?.(Math.floor(duration));
+    }, [duration]);
+
     return (
-        <div className='w-full flex flex-row items-center gap-3 p-2 bg-slate-100/70 dark:bg-slate-500/50 rounded-lg'>
-            <Button
-                color='primary'
-                className='rounded-full'
-                onClick={playPause}
-                isDisabled={buffering}
-                isIconOnly
-            >
-                <PlayPauseIcon buffering={buffering} playing={playing} />
-            </Button>
-
-            <TrackSlider
-                name={name}
-                currentTime={currentTime}
-                duration={duration}
-                onChange={handleSeek}
+        <div className='flex flex-1 flex-row items-center gap-3 p-2 pr-4 bg-slate-100/70 dark:bg-slate-500/50 rounded-lg'>
+            <PlayPauseButton
+                playing={playing}
+                buffering={!source || buffering}
+                onPlay={handlePlay}
+                onPause={pause}
             />
-
-            <Button variant='flat' color='danger' onClick={handleRemove} isIconOnly>
-                <TrashIcon />
-            </Button>
+            <TrackBar currentTime={currentTime} duration={duration} onChange={handleSeek} />
+            <TrackTimer currentTime={currentTime} duration={duration} />
         </div>
     );
 }

@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useCallback, useContext, useEffect, useRef } from 'react';
+import { createContext, useContext, useEffect, useRef } from 'react';
 import { type ChildrenContainer } from '@/types/common';
 
 type EventHandler = (...args: any[]) => void;
@@ -46,21 +46,21 @@ export const useEmitter = (eventName: string, ...args: any[]) => {
 export default function BusProvider({ children }: ChildrenContainer) {
     const $events = useRef<Event>({});
 
-    const off = useCallback((eventName: string, eventHandler: EventHandler) => {
+    const off = (eventName: string, eventHandler: EventHandler) => {
         $events.current[eventName] = $events.current[eventName]?.filter(e => eventHandler !== e);
-    }, []);
+    };
 
-    const on = useCallback((eventName: string, eventHandler: EventHandler): (() => void) => {
+    const on = (eventName: string, eventHandler: EventHandler): (() => void) => {
         $events.current[eventName] ??= [];
         $events.current[eventName].push(eventHandler);
 
         return () => off(eventName, eventHandler);
-    }, []);
+    };
 
-    const emit = useCallback((eventName: string, ...args: any[]) => {
+    const emit = (eventName: string, ...args: any[]) => {
         const handlers = $events.current[eventName] ?? [];
         handlers.forEach(handler => handler(...args));
-    }, []);
+    };
 
     return <BusContext.Provider value={{ on, off, emit }}>{children}</BusContext.Provider>;
 }

@@ -34,7 +34,10 @@ export interface Database {
                 Row: {
                     book_id: string;
                     created_at: string;
+                    duration: number | null;
+                    hash: string | null;
                     id: number;
+                    index: number | null;
                     name: string | null;
                     nanoid: string;
                     url: string;
@@ -42,7 +45,10 @@ export interface Database {
                 Insert: {
                     book_id: string;
                     created_at?: string;
+                    duration?: number | null;
+                    hash?: string | null;
                     id?: number;
+                    index?: number | null;
                     name?: string | null;
                     nanoid: string;
                     url: string;
@@ -50,7 +56,10 @@ export interface Database {
                 Update: {
                     book_id?: string;
                     created_at?: string;
+                    duration?: number | null;
+                    hash?: string | null;
                     id?: number;
+                    index?: number | null;
                     name?: string | null;
                     nanoid?: string;
                     url?: string;
