@@ -16,14 +16,24 @@ import { cn } from '@/helpers/utils';
 export interface MainPlayerProps {
     book: Book;
     trackList: Track[];
+    showTracks?: boolean;
+    onToggleTracks?: () => void;
 }
 
-export default function MainPlayer({ book, trackList }: MainPlayerProps) {
+export default function MainPlayer({
+    book,
+    trackList,
+    showTracks,
+    onToggleTracks,
+}: MainPlayerProps) {
     return (
         <Card
             className={cn(
-                ' w-[400px] max-h-min flex-none border-none bg-background/60 dark:bg-default-100/50 transition-all',
+                'w-[400px] max-h-min flex-none border-none bg-background/60 dark:bg-default-100/50 transition-all relative z-10',
                 'md:rounded-r-none',
+                {
+                    'rounded-large md:rounded-large': !showTracks,
+                },
             )}
             shadow='sm'
             isBlurred
@@ -31,7 +41,12 @@ export default function MainPlayer({ book, trackList }: MainPlayerProps) {
             <CardBody className='flex flex-col gap-4 p-8'>
                 <div className='flex flex-row gap-4 justify-between'>
                     <Logo className='flex-1 text-4xl text-black dark:text-white text-left' />
-                    <Button isIconOnly className='data-[hover]:bg-foreground/10' variant='light'>
+                    <Button
+                        isIconOnly
+                        className='data-[hover]:bg-foreground/10'
+                        variant='light'
+                        onClick={onToggleTracks}
+                    >
                         <QueueIcon className='text-foreground/80 text-2xl' />
                     </Button>
                 </div>

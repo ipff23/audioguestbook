@@ -5,6 +5,7 @@ export function useEventListener<T extends Element>(
     eventName: string,
     eventHandler: (...args: any[]) => void,
     options?: boolean | AddEventListenerOptions,
+    deps: any[] = [],
 ) {
     useEffect(() => {
         if (!target?.addEventListener) return;
@@ -13,5 +14,5 @@ export function useEventListener<T extends Element>(
         return () => {
             target.removeEventListener(eventName, eventHandler);
         };
-    }, [target, eventName, options]);
+    }, [target, eventName, options, eventHandler, ...deps]);
 }

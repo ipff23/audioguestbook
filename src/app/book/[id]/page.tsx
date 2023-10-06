@@ -3,11 +3,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 
 import { type Track, type SupabaseBook } from '@/types/books';
 
-import MainContainer from '@/components/main-container';
-import JsonViewer from '@/components/json-viewer';
-
-import MainPlayer from './components/main-player';
-import TrackList from './components/track-list';
+import BookClient from './book-client';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,20 +25,5 @@ export default async function Book({ params: { id }, searchParams }: BookProps) 
 
     const debug = searchParams?.debug !== undefined;
 
-    return (
-        <>
-            {debug && <JsonViewer data={book} />}
-            <MainContainer
-                background={book.cover}
-                classNames={{
-                    container: 'min-h-screen justify-center items-center select-none',
-                }}
-            >
-                <div className='flex flex-row'>
-                    <MainPlayer book={book} trackList={tracks} />
-                    <TrackList book={book} trackList={tracks} />
-                </div>
-            </MainContainer>
-        </>
-    );
+    return <BookClient debug={debug} book={book} tracks={tracks} />;
 }

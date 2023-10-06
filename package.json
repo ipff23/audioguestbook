@@ -42,6 +42,7 @@
         "lodash": "^4.17.21",
         "nanoid": "^5.0.1",
         "next": "13.4.19",
+        "next-usequerystate": "^1.8.2",
         "postcss": "8.4.29",
         "prettier": "3.0.3",
         "react": "^18.2.0",

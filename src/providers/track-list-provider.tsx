@@ -100,10 +100,6 @@ const useInternalTrackList = () => {
         }
     };
 
-    // Quizá implementar una mecánica de "la bolsa"
-    // Meter todos los tracks en la bolsa e irlos sacando de uno en uno
-    // Cuando la bolsa se quede sin tracks, meterlos de nuevo y volver a sacarlos uno a uno
-    // Puede ser en orden o aleatorio
     const skipForward = () => {
         pause();
         seek(0);
@@ -126,10 +122,12 @@ const useInternalTrackList = () => {
     const setTracks = (trackList: TrackEnitity[]) => {
         pause();
         tracksManager.reset();
+
         trackList.forEach((trackItem: TrackEnitity, index: number) => {
             tracksManager.set(index, trackItem);
         });
     };
+
     const playNext = () => {
         if (repeatState === RepeatState.RepeatAll) {
             skipForward();
@@ -141,8 +139,6 @@ const useInternalTrackList = () => {
             return;
         }
 
-        // Al llegar al final no se detiene,
-        // se repite desde una antes y se queda ciclado en esa canción
         if (currentTrackNo + 1 < tracks.size - 1) {
             skipForward();
         }
@@ -166,7 +162,11 @@ const useInternalTrackList = () => {
         playNext();
     };
 
-    useEventListener(track.$track, 'ended', handleTrackEnded);
+    useEventListener(track.$track, 'ended', handleTrackEnded, {}, [
+        repeatState,
+        currentTrackNo,
+        tracks.size,
+    ]);
 
     return {
         playing: track.playing,
