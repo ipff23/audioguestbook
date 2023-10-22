@@ -12,6 +12,7 @@ import { cn } from '@/helpers/utils';
 
 import DragHandleIcon from '@/icons/drag-handle-regular';
 import TrashIcon from '@/icons/trash-regular';
+import DownloadIcon from '@/icons/download-regular';
 
 import TrackPlayer from './track-player';
 
@@ -125,12 +126,23 @@ export default function TrackItemView({
                 </Button>
             </div>
 
-            <div className='flex-1 flex flex-row items-center ml-[60px] mr-[52px] gap-3'>
+            <div className='flex-1 flex flex-row items-center ml-[60px] gap-3'>
                 <TrackPlayer
                     id={track.nanoid}
                     source={source}
                     onDurationChange={onDurationChange}
                 />
+
+                <Button
+                    as='a'
+                    variant='flat'
+                    color='primary'
+                    href={`/track/${track.nanoid}`}
+                    download
+                    isIconOnly
+                >
+                    <DownloadIcon />
+                </Button>
             </div>
         </div>
     );

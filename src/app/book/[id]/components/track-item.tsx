@@ -1,10 +1,12 @@
 import { Image } from '@nextui-org/image';
+import { Button } from '@nextui-org/button';
 import NextImage from 'next/image';
 
 import { type Book as BookEntity, type Track as TrackEnitity } from '@/types/books';
 import { cn } from '@/helpers/utils';
 import PlayIcon from '@/icons/play-fill';
 import PauseIcon from '@/icons/pause-fill';
+import DownloadIcon from '@/icons/download-regular';
 
 export interface TrackItemProps {
     book: BookEntity;
@@ -88,6 +90,10 @@ export default function TrackItem({
                 </h2>
                 <p className='text-slate-600 dark:text-slate-400 text-sm'>{book.name}</p>
             </div>
+
+            <Button as='a' variant='flat' href={`/track/${track.nanoid}`} download isIconOnly>
+                <DownloadIcon />
+            </Button>
         </button>
     );
 }
