@@ -16,7 +16,7 @@ export default function MainContainer({ classNames, background, children }: Main
     return (
         <main
             className={cn(
-                'bg-slate-200 dark:bg-slate-950 bg-cover bg-center flex flex-col min-h-screen',
+                'bg-slate-200 dark:bg-slate-950 bg-cover bg-center flex flex-col h-screen md:h-auto md:min-h-screen',
                 classNames?.background,
             )}
             style={{
@@ -25,11 +25,16 @@ export default function MainContainer({ classNames, background, children }: Main
         >
             <div
                 className={cn(
-                    'backdrop-blur-2xl bg-slate-200/60 dark:bg-slate-950/80 flex min-h-screen flex-col items-center',
+                    'backdrop-blur-2xl bg-slate-200/60 dark:bg-slate-950/80 flex h-full md:h-auto md:min-h-screen flex-col items-center',
                     classNames?.overlay,
                 )}
             >
-                <div className={cn('w-[42rem] p-6 flex flex-col gap-4', classNames?.container)}>
+                <div
+                    className={cn(
+                        'w-[42rem] p-6 flex flex-col gap-4 h-full md:h-auto',
+                        classNames?.container,
+                    )}
+                >
                     {children}
                 </div>
             </div>

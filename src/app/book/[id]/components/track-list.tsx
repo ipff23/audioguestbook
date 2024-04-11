@@ -28,9 +28,10 @@ export default function TrackList({ book, trackList, showTracks }: TrackListProp
                 >
                     <Card
                         className={cn(
-                            'rounded-l-none w-[400px] h-full flex-none border-none bg-background/70 dark:bg-default-100/60 transition-all relative z-0',
+                            'rounded-l-none w-[400px] max-h-[760px] h-full flex-none border-none bg-background/70 dark:bg-default-100/60 transition-all relative z-0',
                             'animate-fade-right animate-once animate-duration-300 animate-ease-in-out animate-fill-both',
                             'hidden md:flex',
+                            'overflow-x-scroll',
                         )}
                         shadow='sm'
                         isBlurred

@@ -43,7 +43,7 @@ export default function MainPlayer({
                     <Logo className='flex-1 text-4xl text-black dark:text-white text-left' />
                     <Button
                         isIconOnly
-                        className='data-[hover]:bg-foreground/10'
+                        className='hidden md:block data-[hover]:bg-foreground/10'
                         variant='light'
                         onClick={onToggleTracks}
                     >
@@ -53,7 +53,7 @@ export default function MainPlayer({
 
                 <div className='flex justify-center mt-8'>
                     <Image
-                        className='object-cover w-[320px] h-[320px]'
+                        className='object-cover w-[260px] h-[260px] md:w-[320px] md:h-[320px]'
                         src={book.cover}
                         width={320}
                         height={320}

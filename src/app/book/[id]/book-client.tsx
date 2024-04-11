@@ -28,7 +28,7 @@ export default function BookClient({ debug, book, tracks }: BookProps) {
                 background={book.cover}
                 classNames={{
                     container:
-                        'min-h-screen justify-center items-center select-none transition-all',
+                        'h-full md:h-auto md:min-h-screen justify-center items-center select-none transition-all',
                 }}
             >
                 <div className='flex flex-row'>

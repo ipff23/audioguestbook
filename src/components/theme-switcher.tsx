@@ -9,7 +9,7 @@ export default function ThemeSwitcher() {
     const darkMode = useDarkMode(true);
 
     return (
-        <div className='fixed bottom-8 right-4'>
+        <div className='fixed top-7 md:right-4 md:top-[auto] md:bottom-8 right-4 '>
             <Switch
                 defaultSelected={darkMode.value}
                 onValueChange={darkMode.toggle}
