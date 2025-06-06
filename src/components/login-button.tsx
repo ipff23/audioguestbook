@@ -6,6 +6,8 @@ import { Button } from '@nextui-org/button';
 
 import GoogleLogoIcon from '@/icons/google-logo';
 
+const HOSTANAME = process.env.NEXT_PUBLIC_HOSTNAME ?? 'http://localhost:3000';
+
 export default function LoginButton() {
     const supabase = createClientComponentClient();
     const [loading, setLoading] = useState(false);
@@ -16,7 +18,7 @@ export default function LoginButton() {
         await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
-                redirectTo: `${location.origin}/auth/callback`,
+                redirectTo: `${HOSTANAME}/auth/callback`,
             },
         });
     };
