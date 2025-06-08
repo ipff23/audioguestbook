@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import umami from '@umami/node';
 
-export const shareUrl = import.meta.env.PUBLIC_UMAMI_SHARE_URL || '#';
+export const umamiShareUrl = import.meta.env.PUBLIC_UMAMI_SHARE_URL || '#';
 
 const umamiConfigSchema = z.object({
     websiteId: z.string(),
