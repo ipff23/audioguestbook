@@ -14,7 +14,7 @@
         "components": "@/modules/shadcn/components",
         "utils": "@/modules/core/helpers/utils",
         "ui": "@/modules/shadcn/ui",
-        "lib": "@/modules/shadcn/helpers",
+        "lib": "@/modules/core/helpers",
         "hooks": "@/modules/shadcn/hooks"
     },
     "iconLibrary": "lucide"

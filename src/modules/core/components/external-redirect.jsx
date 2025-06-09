@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export default function ExternalRedirect({ to, replace = false }) {
+export const ExternalRedirect = ({ to, replace = false }) => {
     useEffect(() => {
         if (replace) {
             window.location.replace(to);
@@ -10,4 +10,4 @@ export default function ExternalRedirect({ to, replace = false }) {
     }, [to, replace]);
 
     return null;
-}
+};

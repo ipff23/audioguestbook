@@ -3,5 +3,12 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 
 import { Router } from './routers/router';
+import { Providers } from './modules/core/providers/providers';
 
-createRoot(document.getElementById('root')).render(<Router />);
+const Main = () => (
+    <Providers>
+        <Router />
+    </Providers>
+);
+
+createRoot(document.getElementById('root')).render(<Main />);
