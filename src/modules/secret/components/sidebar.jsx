@@ -1,3 +1,4 @@
+import { useLocation } from 'wouter';
 import { ChartArea, LibraryBig, LogOut, SquarePlus, Users } from 'lucide-react';
 
 import { logout } from '@/modules/core/services/firebase';
@@ -22,6 +23,7 @@ import {
 } from '@/modules/shadcn/ui/sidebar';
 
 export const Sidebar = () => {
+    const [location] = useLocation();
     const { user } = useAuth();
 
     return (
@@ -36,7 +38,10 @@ export const Sidebar = () => {
                     <SidebarGroupContent>
                         <SidebarMenu>
                             <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
+                                <SidebarMenuButton
+                                    isActive={location.includes('/secret/books')}
+                                    asChild
+                                >
                                     <a href='/secret/books'>
                                         <LibraryBig />
                                         <span>Todos los Books</span>
@@ -61,7 +66,10 @@ export const Sidebar = () => {
                     <SidebarGroupContent>
                         <SidebarMenu>
                             <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
+                                <SidebarMenuButton
+                                    isActive={location.includes('/secret/users')}
+                                    asChild
+                                >
                                     <a href='/secret/users'>
                                         <Users />
                                         <span>Usuarios</span>
