@@ -21,7 +21,7 @@ export const Router = () => (
         <Route path='/secret' component={SecretRoot} />
         <Route path='/secret/login' component={Login} />
         <Route path='/secret/books' component={BooksAll} />
-        <Route path='/secret/books/:bookId' component={BooksEdit} />
+        <Route path='/secret/books/:id' component={BooksEdit} />
         <Route path='/secret/users' component={UsersAll} />
 
         <Route path='/umami' component={UmamiRedirect} />
