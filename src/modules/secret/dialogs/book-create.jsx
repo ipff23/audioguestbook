@@ -1,6 +1,6 @@
+import { useQueryState } from 'nuqs';
 import { parseAsShorthandBoolean } from '@/modules/core/helpers/nuqs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/modules/shadcn/ui/dialog';
-import { useQueryState } from 'nuqs';
 
 export const useBookCreateDialogController = () => {
     return useQueryState('create', parseAsShorthandBoolean);

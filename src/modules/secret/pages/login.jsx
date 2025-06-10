@@ -8,12 +8,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { AlertCircleIcon, Loader2 } from 'lucide-react';
 
 import { cn } from '@/modules/core/helpers/utils';
+import { toAcronym } from '@/modules/core/helpers/strings';
 import { loginWithEmail } from '@/modules/services/firebase';
-import { readUserMuation } from '@/modules/secret/actions/user-read-query';
+import { readUserMuation } from '@/modules/secret/actions/user-read-mutation';
 import { changePasswordMuation } from '@/modules/secret/actions/user-change-password-mutation';
 
 import { Logo } from '@/modules/main/components/logo';
 
+import { Password } from '@/modules/shadcn/ui/password';
 import { Button } from '@/modules/shadcn/ui/button';
 import { Label } from '@/modules/shadcn/ui/label';
 import { Input } from '@/modules/shadcn/ui/input';
@@ -26,7 +28,6 @@ import {
     CardHeader,
     CardTitle,
 } from '@/modules/shadcn/ui/card';
-import { Password } from '@/modules/shadcn/ui/password';
 
 const loginMutation = ({ onSuccess }) => {
     return {
@@ -176,7 +177,7 @@ const FirstTime = ({ user }) => {
                     <CardTitle>
                         <Avatar className='mb-4 size-16'>
                             <AvatarImage src={`https://unavatar.io/${user.email}`} />
-                            <AvatarFallback>CN</AvatarFallback>
+                            <AvatarFallback>{toAcronym(user.name)}</AvatarFallback>
                         </Avatar>
                         <h1 className='text-xl'>Hey there!, {user.name}.</h1>
                     </CardTitle>

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+
 import {
     getAuth,
     signOut,
@@ -10,6 +10,8 @@ import {
     reauthenticateWithCredential,
     updatePassword,
 } from 'firebase/auth';
+
+import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfigSchema = z.object({

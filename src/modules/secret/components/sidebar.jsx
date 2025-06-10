@@ -1,15 +1,12 @@
-import {
-    Calendar,
-    ChartArea,
-    Home,
-    Inbox,
-    LibraryBig,
-    LogOut,
-    Search,
-    Settings,
-    SquarePlus,
-    Users,
-} from 'lucide-react';
+import { ChartArea, LibraryBig, LogOut, SquarePlus, Users } from 'lucide-react';
+
+import { logout } from '@/modules/services/firebase';
+import { toAcronym } from '@/modules/core/helpers/strings';
+import { useAuth } from '@/modules/secret/hooks/use-auth';
+
+import { Avatar, AvatarFallback, AvatarImage } from '@/modules/shadcn/ui/avatar';
+import { Button } from '@/modules/shadcn/ui/button';
+import { Logo } from '@/modules/main/components/logo';
 
 import {
     Sidebar as ShadcnSidebar,
@@ -23,12 +20,10 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/modules/shadcn/ui/sidebar';
-import { Avatar } from '@/modules/shadcn/ui/avatar';
-import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
-import { Button } from '@/modules/shadcn/ui/button';
-import { Logo } from '@/modules/main/components/logo';
 
 export const Sidebar = () => {
+    const { user } = useAuth();
+
     return (
         <ShadcnSidebar>
             <SidebarHeader>
@@ -87,23 +82,25 @@ export const Sidebar = () => {
                 </SidebarGroup>
             </SidebarContent>
 
-            <SidebarFooter>
-                <div className='flex items-center justify-between gap-2 p-2'>
-                    <Avatar>
-                        <AvatarImage src='https://github.com/shadcn.png' />
-                        <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
+            {user && (
+                <SidebarFooter>
+                    <div className='flex items-center justify-between gap-2 p-2'>
+                        <Avatar>
+                            <AvatarImage src={`https://unavatar.io/${user.email}`} />
+                            <AvatarFallback>{toAcronym(user.name)}</AvatarFallback>
+                        </Avatar>
 
-                    <div className='flex flex-col items-start justify-between'>
-                        <span className='text-sm font-semibold'>Carlos</span>
-                        <span className='text-xs text-muted-foreground'>carlos@gmail.com</span>
+                        <div className='flex flex-col items-start justify-between'>
+                            <span className='text-sm font-semibold'>{user.name}</span>
+                            <span className='text-xs text-muted-foreground'>{user.email}</span>
+                        </div>
+
+                        <Button variant='ghost' size='icon' className='ml-auto' onClick={logout}>
+                            <LogOut />
+                        </Button>
                     </div>
-
-                    <Button variant='ghost' size='icon' className='ml-auto'>
-                        <LogOut />
-                    </Button>
-                </div>
-            </SidebarFooter>
+                </SidebarFooter>
+            )}
         </ShadcnSidebar>
     );
 };
