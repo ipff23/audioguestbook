@@ -1,6 +1,5 @@
 import { Redirect, useLocation } from 'wouter';
 import { useAuth } from '@/modules/secret/hooks/use-auth';
-import { Loader } from '@/modules/core/components/loader';
 
 export const WithAuth = ({ children }) => {
     const [, navigate] = useLocation();
@@ -9,7 +8,7 @@ export const WithAuth = ({ children }) => {
     });
 
     if (loading) {
-        return <Loader />;
+        return <></>;
     }
 
     if (!user) {
