@@ -59,7 +59,7 @@ const LoginScreen = ({ onLogin }) => {
         }),
     );
 
-    const loading = loginAction.isLoading || readUser.isLoading;
+    const loading = loginAction.isPending || readUser.isPending;
 
     const loginSchema = z.object({
         email: z.email(),
@@ -202,7 +202,7 @@ const FirstTime = ({ user }) => {
                         </div>
 
                         <div className='space-y-2'>
-                            <Label htmlFor='password'>Repetir contraseña</Label>
+                            <Label htmlFor='confirmPassword'>Repetir contraseña</Label>
                             <Password
                                 className={cn({
                                     'ring-2 ring-red-500': errors.confirmPassword,
@@ -220,9 +220,9 @@ const FirstTime = ({ user }) => {
                             type='submit'
                             size='lg'
                             className='w-full'
-                            disabled={changePassword.isLoading}
+                            disabled={changePassword.isPending}
                         >
-                            {changePassword.isLoading && <Loader2 className='animate-spin' />}
+                            {changePassword.isPending && <Loader2 className='animate-spin' />}
                             Guardar y continuar
                         </Button>
                     </form>

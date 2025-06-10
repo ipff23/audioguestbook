@@ -1,6 +1,12 @@
 import { createElement, forwardRef } from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { customAlphabet } from 'nanoid';
+
+export const nanoid = customAlphabet(
+    '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+    10,
+);
 
 export const getId = () => Math.random().toString(36).slice(2);
 
