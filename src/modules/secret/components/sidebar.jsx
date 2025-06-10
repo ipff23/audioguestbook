@@ -26,14 +26,13 @@ import {
 import { Avatar } from '@/modules/shadcn/ui/avatar';
 import { AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { Button } from '@/modules/shadcn/ui/button';
+import { Logo } from '@/modules/main/components/logo';
 
 export const Sidebar = () => {
     return (
         <ShadcnSidebar>
             <SidebarHeader>
-                <h1 className='h-9 flex items-center ml-2 text-xl font-barlow font-bold italic uppercase'>
-                    Guestbook
-                </h1>
+                <Logo className='h-9 flex items-center ml-2' />
             </SidebarHeader>
 
             <SidebarContent>

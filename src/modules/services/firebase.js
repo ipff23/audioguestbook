@@ -1,7 +1,15 @@
 import { z } from 'zod';
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import {
+    getAuth,
+    signOut,
+    GoogleAuthProvider,
+    signInWithEmailAndPassword,
+    EmailAuthProvider,
+    reauthenticateWithCredential,
+    updatePassword,
+} from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfigSchema = z.object({
@@ -26,3 +34,25 @@ export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+
+export const googleProvider = new GoogleAuthProvider();
+
+export const loginWithEmail = async ({ email, password }) => {
+    const result = await signInWithEmailAndPassword(auth, email, password);
+    return result.user;
+};
+
+export const logout = async () => {
+    await signOut(auth);
+};
+
+export const updatePasswordWithAuth = async (email, newPassword) => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) throw new Error('No authenticated user');
+
+    await updatePassword(user, newPassword);
+
+    const credential = EmailAuthProvider.credential(email, newPassword);
+    await reauthenticateWithCredential(user, credential);
+};

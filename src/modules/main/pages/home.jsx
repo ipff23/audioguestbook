@@ -1,7 +1,9 @@
+import { Logo } from '../components/logo';
+
 export const Home = () => {
     return (
         <main className='flex-center min-h-screen'>
-            <h1 className='text-4xl font-barlow font-bold italic uppercase'>Guestbook</h1>
+            <Logo className='text-4xl' />
         </main>
     );
 };

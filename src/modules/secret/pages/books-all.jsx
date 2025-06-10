@@ -1,3 +1,4 @@
+import { Logo } from '@/modules/main/components/logo';
 import { Layout } from '@/modules/secret/components/layout';
 import { BookCreate } from '@/modules/secret/dialogs/book-create';
 
@@ -7,7 +8,7 @@ export const BooksAll = () => {
             <BookCreate />
 
             <div className='flex-center min-h-screen'>
-                <h1 className='text-4xl font-barlow font-bold italic uppercase'>All Books</h1>
+                <Logo className='text-4xl'>All Books</Logo>
             </div>
         </Layout>
     );

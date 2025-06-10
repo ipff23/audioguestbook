@@ -1,7 +1,9 @@
+import { Logo } from '../components/logo';
+
 export const NotFound = () => {
     return (
         <main className='flex-center min-h-screen'>
-            <h1 className='text-4xl font-barlow font-bold italic uppercase'>Not Found</h1>
+            <Logo className='text-4xl'>Not Found</Logo>
         </main>
     );
 };

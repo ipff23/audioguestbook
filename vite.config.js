@@ -14,6 +14,7 @@ export default defineConfig({
         },
     },
     define: {
+        // eslint-disable-next-line no-undef
         'process.version': JSON.stringify(process.version),
     },
 });
