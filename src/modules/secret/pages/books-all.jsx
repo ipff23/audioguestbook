@@ -1,7 +1,8 @@
-import { Logo } from '@/modules/main/components/logo';
 import { Layout } from '@/modules/secret/components/layout';
-import { BookCreate } from '@/modules/secret/dialogs/book-create';
 import { WithAuth } from '@/modules/secret/components/with-auth';
+
+import { Logo } from '@/modules/main/components/logo';
+import { BookCreate } from '@/modules/secret/dialogs/book-create';
 
 export const BooksAll = () => {
     return (
