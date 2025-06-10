@@ -1,5 +1,5 @@
 import { Redirect, Route, Switch } from 'wouter';
-import { umamiShareUrl } from '@/modules/services/umami';
+import { umamiShareUrl } from '@/modules/core/services/umami';
 import { ExternalRedirect } from '@/modules/core/components/external-redirect';
 
 import { NotFound } from '@/modules/main/pages/not-found';

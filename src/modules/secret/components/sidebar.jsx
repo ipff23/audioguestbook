@@ -1,6 +1,6 @@
 import { ChartArea, LibraryBig, LogOut, SquarePlus, Users } from 'lucide-react';
 
-import { logout } from '@/modules/services/firebase';
+import { logout } from '@/modules/core/services/firebase';
 import { toAcronym } from '@/modules/core/helpers/strings';
 import { useAuth } from '@/modules/secret/hooks/use-auth';
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '@/modules/services/firebase';
+import { auth } from '@/modules/core/services/firebase';
 import { readUser } from '@/modules/secret/actions/user-read-mutation';
 
 export const useAuth = () => {

@@ -1,5 +1,5 @@
 import { doc, updateDoc } from 'firebase/firestore';
-import { db, updatePasswordWithAuth } from '@/modules/services/firebase';
+import { db, updatePasswordWithAuth } from '@/modules/core/services/firebase';
 
 export const changePasswordMuation = ({ ...args }) => {
     return {

@@ -9,7 +9,7 @@ import { AlertCircleIcon, Loader2 } from 'lucide-react';
 
 import { cn } from '@/modules/core/helpers/utils';
 import { toAcronym } from '@/modules/core/helpers/strings';
-import { loginWithEmail } from '@/modules/services/firebase';
+import { loginWithEmail } from '@/modules/core/services/firebase';
 import { readUserMuation } from '@/modules/secret/actions/user-read-mutation';
 import { changePasswordMuation } from '@/modules/secret/actions/user-change-password-mutation';
 

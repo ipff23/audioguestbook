@@ -1,5 +1,5 @@
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/modules/services/firebase';
+import { db } from '@/modules/core/services/firebase';
 
 export const readUser = async ({ uid }) => {
     const userRef = doc(db, 'users', uid);

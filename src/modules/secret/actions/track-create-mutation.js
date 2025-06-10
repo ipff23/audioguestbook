@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 import { collection, doc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '@/modules/services/firebase';
+import { db } from '@/modules/core/services/firebase';
 
 export const createTrack = async ({
     bookId,
