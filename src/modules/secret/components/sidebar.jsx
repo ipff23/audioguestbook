@@ -29,7 +29,7 @@ export const Sidebar = () => {
     return (
         <ShadcnSidebar>
             <SidebarHeader>
-                <Logo className='h-9 flex items-center ml-2' />
+                <Logo className=' h-10 flex items-center ml-2' />
             </SidebarHeader>
 
             <SidebarContent>

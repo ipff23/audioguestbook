@@ -30,6 +30,10 @@ export const styled = (baseComponent, className) => {
     });
 };
 
+export const hasAllowedType = (file, allowedTypes) => {
+    return allowedTypes.split(',').some(type => type.trim() === file?.type);
+};
+
 export const buildQueryParams = (payload, prefix = '?') => {
     const queryParams = new URLSearchParams();
 

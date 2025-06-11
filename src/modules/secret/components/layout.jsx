@@ -30,7 +30,7 @@ export const Layout = ({ title, children }) => {
                 <Sidebar />
 
                 <main className='w-full'>
-                    <header className='sticky top-0 z-10 flex items-center justify-between p-2 gap-4 bg-background border-b'>
+                    <header className='sticky top-0 z-10 h-14 flex items-center justify-between p-2 gap-4 bg-background border-b'>
                         <div className='flex items-center gap-4'>
                             <SidebarTrigger />
                         </div>

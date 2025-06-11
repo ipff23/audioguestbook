@@ -1,15 +1,11 @@
 import { useRef, useState, useEffect } from 'react';
 import { ImageIcon, TrashIcon } from 'lucide-react';
 
-import { cn } from '@/modules/core/helpers/utils';
+import { cn, hasAllowedType } from '@/modules/core/helpers/utils';
 
 import { Button } from '@/modules/shadcn/ui/button';
 
 const allowedTypes = 'image/png, image/jpeg, image/webp, image/gif';
-
-export const hasAllowedType = (file, allowedTypes) => {
-    return allowedTypes.split(',').some(type => type.trim() === file?.type);
-};
 
 export const ImagePicker = ({ className, disabled, onSelect }) => {
     const $input = useRef(null);

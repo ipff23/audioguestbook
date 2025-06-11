@@ -89,7 +89,7 @@ export const BookCreate = () => {
                                         setCover(file);
                                     }}
                                     className={cn({
-                                        'ring-2 ring-offset-4 ring-red-500': errors.hasCover,
+                                        'ring-2 ring-offset-4 ring-red-500 dark:ring-offset-neutral-800': errors.hasCover,
                                     })}
                                 />
                             )}

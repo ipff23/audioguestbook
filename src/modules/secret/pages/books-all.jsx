@@ -11,7 +11,6 @@ import { BookCreate, useBookCreateDialogController } from '@/modules/secret/dial
 
 import { Button } from '@/modules/shadcn/ui/button';
 import { Skeleton } from '@/modules/shadcn/ui/skeleton';
-import { JsonViewer } from '@/modules/core/components/json-viewer';
 
 export const BooksAll = () => {
     const [, showCreateDialog] = useBookCreateDialogController();
@@ -39,7 +38,7 @@ export const BooksAll = () => {
                     {books.map(book => (
                         <article
                             key={book.id}
-                            className='group relative overflow-hidden rounded-lg border bg-white'
+                            className='group relative overflow-hidden rounded-lg border'
                         >
                             <div className='relative w-48 aspect-square overflow-hidden'>
                                 <img
@@ -48,21 +47,23 @@ export const BooksAll = () => {
                                 />
                                 <div className='absolute top-2 right-2 flex gap-2'>
                                     <Button variant='secondary' size='icon' asChild>
-                                        <a href={`/secret/books/${book.id}`}>
-                                            <Pencil />
+                                        <a href={`/book/${book.id}`} target='_blank'>
+                                            <Eye />
                                         </a>
                                     </Button>
                                     <Button variant='secondary' size='icon' asChild>
-                                        <a href={`/book/${book.id}`} target='_blank'>
-                                            <Eye />
+                                        <a href={`/secret/books/${book.id}`}>
+                                            <Pencil />
                                         </a>
                                     </Button>
                                 </div>
                             </div>
 
                             <div className='p-4'>
-                                <h3 className='font-medium text-gray-900'>{book.name}</h3>
-                                <p className='text-sm text-gray-500'>{format(book.date, 'PPP')}</p>
+                                <h3 className='font-medium'>{book.name}</h3>
+                                <p className='text-sm text-muted-foreground'>
+                                    {format(book.date, 'PPP')}
+                                </p>
                             </div>
                         </article>
                     ))}

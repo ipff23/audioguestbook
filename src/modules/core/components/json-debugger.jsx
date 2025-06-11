@@ -3,7 +3,7 @@ import { useSettings } from '@/modules/core/hooks/use-settings';
 
 import { JsonViewer } from '@/modules/core/components/json-viewer';
 
-export const Debugger = ({ className, name = 'root', data = {}, expanded }) => {
+export const JsonDebugger = ({ className, name = 'root', data = {}, expanded }) => {
     const [debug] = useSettings('settings:debug', false);
 
     if (!debug) return null;
