@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import { useMouse } from '@uidotdev/usehooks';
 import { getPercent, clamp, getFromPercent, awayTo } from '@/modules/core/helpers/maths';
@@ -53,7 +52,7 @@ export const useTrackbar = ({ trackRef, minValue = 0, maxValue = 100, value = 0,
                 });
             }
         }
-    }, [mouseDown, progress, maxValue, value]);
+    }, [mouseDown]);
 
     useWindowEventListener('mouseup', handleMouseUp);
 
@@ -68,7 +67,7 @@ export const useTrackbar = ({ trackRef, minValue = 0, maxValue = 100, value = 0,
             const updatedProgress = getPercent(value, maxValue - minValue);
             setProgress(updatedProgress);
         }
-    }, [mouseDown, value, maxValue, minValue]);
+    }, [value, maxValue, minValue]);
 
     return {
         progress,

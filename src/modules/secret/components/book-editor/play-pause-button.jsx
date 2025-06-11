@@ -18,7 +18,11 @@ export const PlayPauseButton = ({ className, playing, buffering, onPlay, onPause
 
     return (
         <Button
-            className={cn('rounded-full size-8 bg-gray-200 text-black dark:bg-gray-800 dark:text-white', className)}
+            className={cn(
+                'rounded-full size-8 bg-gray-200 text-black dark:bg-gray-800 dark:text-white',
+                'hover:bg-gray-300 dark:hover:bg-gray-600',
+                className,
+            )}
             onClick={handleClick}
             disabled={buffering}
         >

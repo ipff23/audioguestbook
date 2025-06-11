@@ -72,7 +72,7 @@ export const ImagePicker = ({ className, disabled, onSelect }) => {
         return () => {
             reader.abort();
         };
-    }, [selectedImage, onSelect]);
+    }, [selectedImage]);
 
     return (
         <>

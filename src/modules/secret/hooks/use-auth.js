@@ -21,7 +21,7 @@ export const useAuth = ({ onLogin, onLogout } = {}) => {
         });
 
         return () => unsub();
-    }, [onLogin, onLogout]);
+    }, []);
 
     return { user, loading };
 };
