@@ -65,7 +65,7 @@ export const Playlist = ({ book, tracks = [] }) => {
                             },
                         )}
                     >
-                        <ScrollArea className={cn('flex-1 h-auto w-full p-4  overflow-hidden')}>
+                        <ScrollArea className={cn('flex-1 h-auto w-full p-4 pb-0 overflow-hidden')}>
                             {sortBy(tracks, 'index').map((track, index) => (
                                 <TrackItem
                                     key={track.nanoid}
@@ -79,7 +79,7 @@ export const Playlist = ({ book, tracks = [] }) => {
                             ))}
                         </ScrollArea>
                         <MiniPlayer
-                            className='h-16 w-[calc(100%-2rem)] mx-4 sm:mx-0 sm:max-w-[400px]'
+                            className='h-16 w-[calc(100%-2rem)] mx-4 mb-4 sm:mx-0 sm:max-w-[400px]'
                             book={book}
                             tracks={tracks}
                             playing={playing}
