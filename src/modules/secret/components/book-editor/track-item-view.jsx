@@ -6,6 +6,7 @@ import { Button } from '@/modules/shadcn/ui/button';
 import { Input } from '@/modules/shadcn/ui/input';
 import { TrackPlayer } from './track-player';
 import { Skeleton } from '@/modules/shadcn/ui/skeleton';
+import { makeDownloadLink } from '@/modules/core/helpers/strings';
 
 const Wrapper = styled(
     'div',
@@ -105,19 +106,21 @@ export const TrackItemView = ({
                 <Trash />
             </Button>
 
-            <Button
-                className={cn(
-                    '[grid-area:download] bg-blue-100 text-blue-500 hover:bg-blue-200 hover:text-blue-600',
-                    'dark:bg-blue-500/30 dark:text-blue-300/60 dark:hover:bg-blue-700/50 dark:hover:text-blue-300',
-                )}
-                size='icon'
-                variant='secondary'
-                asChild
-            >
-                <a href={`/track/${track?.nanoid}`} download={name}>
-                    <Download />
-                </a>
-            </Button>
+            {track.type === 'stored' && (
+                <Button
+                    className={cn(
+                        '[grid-area:download] bg-blue-100 text-blue-500 hover:bg-blue-200 hover:text-blue-600',
+                        'dark:bg-blue-500/30 dark:text-blue-300/60 dark:hover:bg-blue-700/50 dark:hover:text-blue-300',
+                    )}
+                    size='icon'
+                    variant='secondary'
+                    asChild
+                >
+                    <a href={makeDownloadLink(track)} download={name}>
+                        <Download />
+                    </a>
+                </Button>
+            )}
         </Wrapper>
     );
 };

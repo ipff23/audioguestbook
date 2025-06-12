@@ -9,7 +9,7 @@ import {
     kebabCase,
 } from 'lodash';
 
-import { pipe } from './utils';
+import { buildQueryParams, pipe } from './utils';
 
 const toString = str => str.toString();
 
@@ -50,4 +50,21 @@ export const humanMinutes = seconds => {
     const mins = Math.floor(seconds / 60);
     const secs = `${Math.floor(seconds % 60)}`.padStart(2, '0');
     return `${mins}:${secs}`;
+};
+
+export const withExtension = (filename, ext) => {
+    const cleanExt = ext.startsWith('.') ? ext.toLowerCase() : `.${ext.toLowerCase()}`;
+    return filename.replace(/\.[a-z0-9]+$/i, '') + cleanExt;
+};
+
+const BASE_PROXY = 'https://endpoints.hckr.mx/guestbook/proxy/download';
+
+export const makeDownloadLink = track => {
+    const filename = withExtension(track.name, 'mp3');
+    const query = buildQueryParams({
+        filename,
+        url: track.url,
+    });
+
+    return BASE_PROXY + query;
 };
