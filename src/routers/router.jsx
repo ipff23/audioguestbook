@@ -5,6 +5,7 @@ import { ExternalRedirect } from '@/modules/core/components/external-redirect';
 import { NotFound } from '@/modules/main/pages/not-found';
 
 import { Home } from '@/modules/main/pages/home';
+import { Book } from '@/modules/main/pages/book';
 
 import { Login } from '@/modules/secret/pages/login';
 import { BooksAll } from '@/modules/secret/pages/books-all';
@@ -17,6 +18,7 @@ const SecretRoot = () => <Redirect to='/secret/books' />;
 export const Router = () => (
     <Switch>
         <Route path='/' component={Home} />
+        <Route path='/book/:id/:name?' component={Book} />
 
         <Route path='/secret' component={SecretRoot} />
         <Route path='/secret/login' component={Login} />

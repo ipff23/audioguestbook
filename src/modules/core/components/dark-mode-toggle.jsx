@@ -4,13 +4,14 @@ import { useDarkMode } from '@/modules/core/hooks/use-dark-mode';
 import { Tooltip } from '@/modules/shadcn/ui/tooltip-simple';
 import { ToggleIcon } from '@/modules/shadcn/ui/toggle-icon';
 
-export const DarkModeToggle = () => {
+export const DarkModeToggle = ({ className, variant = 'ghost' }) => {
     const [theme, toggle] = useDarkMode();
 
     return (
         <Tooltip content='Toggle Dark Mode'>
             <ToggleIcon
-                variant='ghost'
+                className={className}
+                variant={variant}
                 pressed={theme === 'dark'}
                 onPressedChange={toggle}
                 icons={{

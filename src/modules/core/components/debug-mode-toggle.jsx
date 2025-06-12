@@ -4,13 +4,14 @@ import { useSettings } from '@/modules/core/hooks/use-settings';
 import { Tooltip } from '@/modules/shadcn/ui/tooltip-simple';
 import { ToggleIcon } from '@/modules/shadcn/ui/toggle-icon';
 
-export const DebugModeToggle = () => {
+export const DebugModeToggle = ({ className, variant = 'ghost' }) => {
     const [debug, setDebug] = useSettings('settings:debug', false);
 
     return (
         <Tooltip content='Toggle Debug Mode'>
             <ToggleIcon
-                variant='ghost'
+                className={className}
+                variant={variant}
                 pressed={debug}
                 onPressedChange={setDebug}
                 icons={{
