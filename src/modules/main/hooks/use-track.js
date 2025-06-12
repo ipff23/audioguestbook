@@ -19,7 +19,7 @@ export const useTrack = ({
     onEnded,
     onBuffering,
     onResume,
-}) => {
+} = {}) => {
     const $track = useRef(document.createElement('audio'));
 
     const [playing, setPlaying] = useState(false);

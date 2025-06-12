@@ -2,18 +2,16 @@ import { useQuery } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet';
 
 import { cn } from '@/modules/core/helpers/utils';
+import { sortBy } from '@/modules/core/helpers/arrays';
 import { useDocumentClassNames } from '@/modules/core/hooks/use-document-class-names';
 import { useDarkMode } from '@/modules/core/hooks/use-dark-mode';
 
 import { readSingleBookQuery } from '@/modules/secret/actions/book-actions';
 import { readAllTracksQuery } from '@/modules/secret/actions/track-actions';
 
-import { BreakpointIndicator } from '@/modules/core/components/breakpoint-indicator';
-import { JsonDebugger } from '@/modules/core/components/json-debugger';
-import { DarkModeToggle } from '@/modules/core/components/dark-mode-toggle';
-import { DebugModeToggle } from '@/modules/core/components/debug-mode-toggle';
 import { Loader } from '@/modules/core/components/loader';
 
+import TrackListProvider from '../providers/track-list-provider';
 import { Player } from '../components/book-player/player';
 import { Playlist } from '../components/book-player/playlist';
 
@@ -32,8 +30,10 @@ export const Book = ({ params: { id } }) => {
         return <Loader />;
     }
 
+    const sortedTracks = sortBy(tracks, 'index');
+
     return (
-        <>
+        <TrackListProvider>
             <Helmet defaultTitle='Guestbook' titleTemplate='%s | Guestbook'>
                 {book.name && <title>{book.name}</title>}
             </Helmet>
@@ -51,11 +51,11 @@ export const Book = ({ params: { id } }) => {
                     )}
                 >
                     <div className={cn('w-full sm:w-auto flex flex-row')}>
-                        <Player book={book} />
-                        <Playlist book={book} tracks={tracks} />
+                        <Player book={book} tracks={sortedTracks} />
+                        <Playlist book={book} tracks={sortedTracks} />
                     </div>
                 </div>
             </main>
-        </>
+        </TrackListProvider>
     );
 };

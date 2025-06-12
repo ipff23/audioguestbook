@@ -18,9 +18,48 @@ import { PlayPauseButton } from './play-pause-button';
 import { SkipFowardButton } from './skip-foward-button';
 import { ShuffleButton } from './shuffle-button';
 import { Timer } from './timer';
+import { useTrackList } from '../../providers/track-list-provider';
+import { useEffect } from 'react';
 
-export const Player = ({ book }) => {
+export const Player = ({ book, tracks }) => {
     const [playlist, togglePlaylist] = useQueryState('playlist', parseAsShorthandBoolean);
+
+    const {
+        // ...
+        playing,
+        buffering,
+        currentTime,
+        duration,
+        shuffling,
+        repeatState,
+        currentTrack,
+        currentTrackNo,
+        start,
+        play,
+        pause,
+        seek,
+        skipBack,
+        skipForward,
+        repeat,
+        shuffle,
+        setTracks,
+    } = useTrackList();
+
+    const handleSeek = ({ value }) => {
+        seek(value, true);
+    };
+
+    const handlePlay = () => {
+        if (!currentTrack) {
+            start();
+        } else {
+            play();
+        }
+    };
+
+    useEffect(() => {
+        setTracks(tracks);
+    }, [tracks]);
 
     return (
         <div
@@ -62,16 +101,26 @@ export const Player = ({ book }) => {
             </div>
 
             <div className='px-16 py-4'>
-                <Trackbar />
-                <Timer />
+                <Trackbar value={currentTime} maxValue={duration} onChange={handleSeek} />
+                <Timer
+                    currentTime={currentTime}
+                    duration={duration}
+                    currentTrackNo={currentTrackNo + 1}
+                    totalTracks={tracks.length}
+                />
             </div>
 
             <div className='flex-center gap-2 p-4'>
-                <RepeatButton />
-                <SkipBackButton />
-                <PlayPauseButton />
-                <SkipFowardButton />
-                <ShuffleButton />
+                <RepeatButton state={repeatState} onChange={repeat} />
+                <SkipBackButton onClick={skipBack} />
+                <PlayPauseButton
+                    playing={playing}
+                    buffering={buffering}
+                    onPause={pause}
+                    onPlay={handlePlay}
+                />
+                <SkipFowardButton onClick={skipForward} />
+                <ShuffleButton shuffling={shuffling} onChange={shuffle} />
             </div>
         </div>
     );

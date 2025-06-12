@@ -13,11 +13,39 @@ import { Drawer, DrawerContent } from '@/modules/shadcn/ui/drawer';
 
 import { TrackItem } from './track-item';
 import { MiniPlayer } from './mini-player';
+import { useTrackList } from '../../providers/track-list-provider';
 
 export const Playlist = ({ book, tracks = [] }) => {
     const [theme] = useDarkMode();
     const breakpoint = useBreakpoint('xs');
     const [playlist, togglePlaylist] = useQueryState('playlist', parseAsShorthandBoolean);
+
+    const {
+        // ...
+        playing,
+        buffering,
+        currentTime,
+        duration,
+        currentTrack,
+        currentTrackNo,
+        start,
+        play,
+        playAt,
+        pause,
+        seek,
+    } = useTrackList();
+
+    const handleSeek = ({ value }) => {
+        seek(value, true);
+    };
+
+    const handlePlay = () => {
+        if (!currentTrack) {
+            start();
+        } else {
+            play();
+        }
+    };
 
     if (['xs', 'sm'].includes(breakpoint)) {
         return (
@@ -38,12 +66,15 @@ export const Playlist = ({ book, tracks = [] }) => {
                         )}
                     >
                         <ScrollArea className={cn('flex-1 h-auto w-full p-4  overflow-hidden')}>
-                            {sortBy(tracks, 'index').map(track => (
+                            {sortBy(tracks, 'index').map((track, index) => (
                                 <TrackItem
                                     key={track.nanoid}
+                                    playing={playing && currentTrackNo === index}
                                     book={book}
                                     track={track}
-                                    playing={track.index % 4 === 0}
+                                    trackNo={index}
+                                    onPlay={playAt}
+                                    onPause={pause}
                                 />
                             ))}
                         </ScrollArea>
@@ -51,6 +82,14 @@ export const Playlist = ({ book, tracks = [] }) => {
                             className='h-16 w-[calc(100%-2rem)] mx-4 sm:mx-0 sm:max-w-[400px]'
                             book={book}
                             tracks={tracks}
+                            playing={playing}
+                            buffering={buffering}
+                            currentTrackNo={currentTrackNo}
+                            duration={duration}
+                            currentTime={currentTime}
+                            onPlay={handlePlay}
+                            onPause={pause}
+                            onTimeChange={handleSeek}
                         />
                     </div>
                 </DrawerContent>
@@ -69,12 +108,15 @@ export const Playlist = ({ book, tracks = [] }) => {
             )}
         >
             <ScrollArea className={cn('h-full w-full p-4')}>
-                {sortBy(tracks, 'index').map(track => (
+                {tracks.map((track, index) => (
                     <TrackItem
                         key={track.nanoid}
+                        playing={playing && currentTrackNo === index}
                         book={book}
                         track={track}
-                        playing={track.index % 4 === 0}
+                        trackNo={index}
+                        onPlay={playAt}
+                        onPause={pause}
                     />
                 ))}
             </ScrollArea>
