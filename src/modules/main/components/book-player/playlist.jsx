@@ -9,18 +9,10 @@ import { useBreakpoint } from '@/modules/core/hooks/use-breakpoint';
 
 import { ScrollArea } from '@/modules/shadcn/ui/scroll-area';
 
-import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from '@/modules/shadcn/ui/drawer';
+import { Drawer, DrawerContent } from '@/modules/shadcn/ui/drawer';
 
 import { TrackItem } from './track-item';
+import { MiniPlayer } from './mini-player';
 
 export const Playlist = ({ book, tracks = [] }) => {
     const [theme] = useDarkMode();
@@ -29,7 +21,7 @@ export const Playlist = ({ book, tracks = [] }) => {
 
     if (['xs', 'sm'].includes(breakpoint)) {
         return (
-            <Drawer open={playlist} onOpenChange={togglePlaylist}>
+            <Drawer modal={false} open={playlist} onOpenChange={togglePlaylist}>
                 <DrawerContent
                     className={cn('dark:bg-gray-800 !h-full !max-h-[calc(100%-4rem)]')}
                     style={{
@@ -55,7 +47,11 @@ export const Playlist = ({ book, tracks = [] }) => {
                                 />
                             ))}
                         </ScrollArea>
-                        <div className='h-16 w-full sm:max-w-[400px] bg-gray-600 rounded-2xl' />
+                        <MiniPlayer
+                            className='h-16 w-[calc(100%-2rem)] mx-4 sm:mx-0 sm:max-w-[400px]'
+                            book={book}
+                            tracks={tracks}
+                        />
                     </div>
                 </DrawerContent>
             </Drawer>

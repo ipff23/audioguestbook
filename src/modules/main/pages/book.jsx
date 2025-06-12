@@ -38,18 +38,6 @@ export const Book = ({ params: { id } }) => {
                 {book.name && <title>{book.name}</title>}
             </Helmet>
 
-            <BreakpointIndicator />
-            <JsonDebugger
-                className='absolute top-4 left-4 z-10 w-[70ch]'
-                name='data'
-                data={{ book, tracks }}
-            />
-
-            <div className='absolute top-4 left-4 z-50 flex gap-2'>
-                <DebugModeToggle variant='secondary' />
-                <DarkModeToggle variant='secondary' />
-            </div>
-
             <main
                 className={cn('group relative  bg-cover bg-no-repeat bg-center bg-fixed')}
                 style={{
