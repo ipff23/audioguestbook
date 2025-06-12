@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { cn } from '@/modules/core/helpers/utils';
 import { parseAsShorthandBoolean } from '@/modules/core/helpers/nuqs';
-import { createBookMutation } from '@/modules/secret/actions/book-create-mutation';
+import { createBookMutation } from '@/modules/secret/actions/book-actions';
 
 import { Button } from '@/modules/shadcn/ui/button';
 import { Label } from '@/modules/shadcn/ui/label';
@@ -89,7 +89,8 @@ export const BookCreate = () => {
                                         setCover(file);
                                     }}
                                     className={cn({
-                                        'ring-2 ring-offset-4 ring-red-500 dark:ring-offset-neutral-800': errors.hasCover,
+                                        'ring-2 ring-offset-4 ring-red-500 dark:ring-offset-neutral-800':
+                                            errors.hasCover,
                                     })}
                                 />
                             )}

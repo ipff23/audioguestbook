@@ -10,8 +10,7 @@ import { AlertCircleIcon, Loader2 } from 'lucide-react';
 import { cn } from '@/modules/core/helpers/utils';
 import { toAcronym } from '@/modules/core/helpers/strings';
 import { loginWithEmail } from '@/modules/core/services/firebase';
-import { readUserMuation } from '@/modules/secret/actions/user-read-mutation';
-import { changePasswordMuation } from '@/modules/secret/actions/user-change-password-mutation';
+import { readUserMuation, changePasswordMuation } from '@/modules/secret/actions/user-actions';
 
 import { Logo } from '@/modules/main/components/logo';
 
@@ -196,7 +195,7 @@ const FirstTime = ({ user }) => {
                                 className={cn({
                                     'ring-2 ring-red-500': errors.password,
                                 })}
-                                placeholder='Al mnos 8 caracteres'
+                                placeholder='Al menos 8 caracteres'
                                 {...register('password')}
                             />
                         </div>

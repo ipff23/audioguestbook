@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/modules/core/services/firebase';
-import { readUser } from '@/modules/secret/actions/user-read-mutation';
+
+import { readUser } from '@/modules/secret/actions/user-actions';
 
 export const useAuth = ({ onLogin, onLogout } = {}) => {
     const [user, setUser] = useState(null);

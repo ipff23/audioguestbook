@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { Eye, Pencil, Plus } from 'lucide-react';
 
-import { readAllBooksQueery } from '@/modules/secret/actions/books-read-mutation';
+import { readAllBooksQuery } from '@/modules/secret/actions/book-actions';
 
 import { Layout } from '@/modules/secret/components/layout';
 import { WithAuth } from '@/modules/secret/components/with-auth';
@@ -15,7 +15,7 @@ import { Skeleton } from '@/modules/shadcn/ui/skeleton';
 export const BooksAll = () => {
     const [, showCreateDialog] = useBookCreateDialogController();
 
-    const { data: books = [], isLoading } = useQuery(readAllBooksQueery());
+    const { data: books = [], isLoading } = useQuery(readAllBooksQuery());
 
     return (
         <WithAuth>

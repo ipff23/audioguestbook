@@ -1,14 +1,18 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
-import { useMap } from '@uidotdev/usehooks';
+import { useLocation } from 'wouter';
+import { useMutation } from '@tanstack/react-query';
 
 import { cn } from '@/modules/core/helpers/utils';
+import { useEmitter, useListener } from '@/modules/core/providers/bus-provider';
 import { JsonDebugger } from '@/modules/core/components/json-debugger';
 
+import { removeMultipleTracksMutation } from '../../actions/track-actions';
+import { removeBookMutation } from '../../actions/book-actions';
+
+import { BookCard } from './book-card';
 import { DropZone } from './drop-zone';
 import { TrackListManager } from './track-list-manager';
-import { useEmitter, useListener } from '@/modules/core/providers/bus-provider';
-import { BookCard } from './book-card';
+import { useMap } from '@/modules/core/hooks/use-map';
 
 const getRemovedItems = (originalItems, modifiedIds) => {
     const originalIds = originalItems.map(i => i.nanoid);
@@ -17,31 +21,58 @@ const getRemovedItems = (originalItems, modifiedIds) => {
 };
 
 export const BookEditor = ({ className, book, tracks = [] }) => {
+    const [, navigate] = useLocation();
     const [modifiedIds, setModifiedIds] = useState([]);
     const [savingTracks, savingTracksManager] = useMap([]);
 
     const [saving, setSaving] = useState(false);
-    const [removingBook, setRemovingBook] = useState(false);
 
     const emitSave = useEmitter('book-editor:save');
 
-    const handleTrackListChane = tracksIds => {
+    const removeTracks = useMutation(
+        removeMultipleTracksMutation({
+            onSuccess: () => {
+                if (modifiedIds.length) {
+                    emitSave('book-editor:save');
+                } else {
+                    setSaving(false);
+                }
+            },
+        }),
+    );
+
+    const removeBook = useMutation(
+        removeBookMutation({
+            onSuccess: () =>
+                navigate('/secret/books', {
+                    replace: true,
+                }),
+        }),
+    );
+
+    const handleTrackListChange = tracksIds => {
         setModifiedIds(tracksIds);
     };
 
     const handleSave = () => {
         setSaving(true);
         const itemsToRemove = getRemovedItems(tracks, modifiedIds);
-        // removeTracks(itemsToRemove);
+
+        if (itemsToRemove.length) {
+            removeTracks.mutate(itemsToRemove);
+        }
+
+        if (!itemsToRemove.length && modifiedIds.length) {
+            emitSave('book-editor:save');
+        }
     };
 
     const handleRestore = () => {
-        // router.refresh();
+        window.location.reload();
     };
 
     const handleDeleteBook = () => {
-        setRemovingBook(true);
-        // removeBook(book.id);
+        removeBook.mutate(book.id);
     };
 
     useEffect(() => {
@@ -53,7 +84,7 @@ export const BookEditor = ({ className, book, tracks = [] }) => {
 
     useEffect(() => {
         if (savingTracks) {
-            const isLoading = Array.from(savingTracks).some(([, isSaving]) => isSaving);
+            const isLoading = savingTracks.some(([, isSaving]) => isSaving);
             setSaving(isLoading);
         }
     }, [savingTracks]);
@@ -73,6 +104,8 @@ export const BookEditor = ({ className, book, tracks = [] }) => {
             <BookCard
                 className='[grid-area:side] border-r'
                 book={book}
+                isSaving={saving}
+                isRemoving={removeBook.isPending}
                 onSave={handleSave}
                 onRestore={handleRestore}
                 onDelete={handleDeleteBook}
@@ -82,11 +115,12 @@ export const BookEditor = ({ className, book, tracks = [] }) => {
                 <JsonDebugger name='book' data={book} />
                 <JsonDebugger name='tracks' data={tracks} />
 
-                <DropZone disabled={saving && removingBook} />
+                <DropZone disabled={saving || removeBook.isPending} />
+
                 <TrackListManager
                     bookId={book.id}
-                    tracks={book.tracks}
-                    onChange={handleTrackListChane}
+                    tracks={tracks}
+                    onChange={handleTrackListChange}
                 />
             </div>
         </div>

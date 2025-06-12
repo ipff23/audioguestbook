@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { cn } from '@/modules/core/helpers/utils';
+import { useListener } from '@/modules/core/providers/bus-provider';
 
 import { SrotableManager } from './sortable-manager';
-import { useListener } from '@/modules/core/providers/bus-provider';
 
 const mapTracks = tracks => {
     const mappedTracks = tracks.map(track => ({
@@ -35,6 +35,7 @@ export const TrackListManager = ({ className, bookId, tracks = [], onChange }) =
     const handleRemove = nanoid => {
         const filteredItems = items.filter(track => track.nanoid !== nanoid);
         setItems(filteredItems);
+        onChange?.(filteredItems);
     };
 
     const handleDropzoneChange = async tracksFiles => {
@@ -54,16 +55,11 @@ export const TrackListManager = ({ className, bookId, tracks = [], onChange }) =
         setItems(items => {
             return [...items].concat(tracks);
         });
+
+        onChange?.([...items].concat(tracks));
     };
 
     useListener('drop-zone:change', handleDropzoneChange);
-
-    useEffect(() => {
-        if (items.length) {
-            const modifiedIds = items.map(track => track.nanoid);
-            onChange?.(modifiedIds);
-        }
-    }, [items]);
 
     return (
         <div className={cn('w-full flex flex-col gap-4', className)}>

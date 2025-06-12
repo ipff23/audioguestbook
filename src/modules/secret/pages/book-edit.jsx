@@ -1,18 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { readBookQuery } from '@/modules/secret/actions/book-read-mutation';
+import { readSingleBookQuery } from '@/modules/secret/actions/book-actions';
 
 import { Layout } from '@/modules/secret/components/layout';
 import { WithAuth } from '@/modules/secret/components/with-auth';
+import { BookEditor } from '@/modules/secret/components/book-editor/book-editor';
 
 import { Skeleton } from '@/modules/shadcn/ui/skeleton';
-
-import { BookEditor } from '../components/book-editor/book-editor';
+import { readAllTracksQuery } from '../actions/track-actions';
 
 export const BooksEdit = ({ params: { id } }) => {
-    const { data: book, isLoading } = useQuery(readBookQuery({ id }));
+    const { data: book, isLoading: bookLoading } = useQuery(readSingleBookQuery({ id }));
+    const { data: tracks, isLoading: tracksLoading } = useQuery(readAllTracksQuery({ bookId: id }));
 
-    if (isLoading) {
+    if (bookLoading || tracksLoading) {
         return (
             <WithAuth>
                 <Layout title='Editar Book'>
@@ -27,7 +28,7 @@ export const BooksEdit = ({ params: { id } }) => {
     return (
         <WithAuth>
             <Layout title='Editar Book'>
-                <BookEditor book={book} />
+                <BookEditor book={book} tracks={tracks} />
             </Layout>
         </WithAuth>
     );

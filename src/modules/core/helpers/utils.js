@@ -13,6 +13,13 @@ export const getId = () => Math.random().toString(36).slice(2);
 export const getKey = prefix => {
     return `${prefix}__${getId()}`;
 };
+export const getFileSha1 = async file => {
+    const buffer = await file.arrayBuffer();
+    const hashBuffer = await crypto.subtle.digest('SHA-1', buffer);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashHex;
+};
 
 export const cn = (...inputs) => {
     return twMerge(clsx(inputs));

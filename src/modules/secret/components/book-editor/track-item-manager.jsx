@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+
 import { useEvents } from '@/modules/core/providers/bus-provider';
+
+import { saveTrackMutation } from '../../actions/track-actions';
 import { TrackItemView } from './track-item-view';
 
 export const TrackItemManager = ({
@@ -14,22 +18,19 @@ export const TrackItemManager = ({
     const [name, setName] = useState(track.name ?? '');
     const [duration, setDuration] = useState(0);
 
-    const { emit, on, off } = useEvents();
+    const { emit, on } = useEvents();
 
-    const isSaving = false;
-
-    const handleSave = () => {
-        // eslint-disable-next-line no-unused-vars
-        const trackData = {
-            bookId,
-            index,
-            name,
-            duration,
-            track,
-        };
-        // saveTrack(trackData);
-        emit('track-item:saving', track.nanoid, true);
-    };
+    const saveTrack = useMutation(
+        saveTrackMutation({
+            onSuccess: () => {
+                emit('track-item:saving', { nanoid: track.nanoid, isSaving: false });
+            },
+            onError: error => {
+                emit('track-item:saving', { nanoid: track.nanoid, isSaving: false });
+                console.log(error);
+            },
+        }),
+    );
 
     const handleNameChange = value => {
         setName(value);
@@ -40,11 +41,20 @@ export const TrackItemManager = ({
     };
 
     useEffect(() => {
-        on('book-editor:save', handleSave);
-        return () => {
-            off('book-editor:save', handleSave);
+        const handleSave = () => {
+            const trackData = {
+                bookId,
+                index,
+                name,
+                duration,
+                track,
+            };
+            saveTrack.mutate(trackData);
         };
-    }, [index, name]);
+
+        const off = on('book-editor:save', handleSave);
+        return () => off();
+    }, [index, name, track]);
 
     return (
         <TrackItemView
@@ -52,7 +62,7 @@ export const TrackItemManager = ({
             name={name}
             track={track}
             source={track.url}
-            isSaving={isSaving}
+            isSaving={saveTrack.isPending}
             isDragging={isDragging}
             setActivatorNodeRef={setActivatorNodeRef}
             listeners={listeners}
