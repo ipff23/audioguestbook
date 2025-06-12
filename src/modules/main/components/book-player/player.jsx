@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useQueryState } from 'nuqs';
 import { format } from 'date-fns';
 import { ListMusic, X } from 'lucide-react';
@@ -5,11 +6,11 @@ import { ListMusic, X } from 'lucide-react';
 import { cn } from '@/modules/core/helpers/utils';
 import { parseAsShorthandBoolean } from '@/modules/core/helpers/nuqs';
 import { parseTimestamp } from '@/modules/core/helpers/dates';
+import { useTrackList } from '@/modules/main/providers/track-list-provider';
 
 import { ToggleIcon } from '@/modules/shadcn/ui/toggle-icon';
 import { DarkModeToggle } from '@/modules/core/components/dark-mode-toggle';
-
-import { Logo } from '../logo';
+import { Logo } from '@/modules/main/components/logo';
 
 import { Trackbar } from './trackbar';
 import { RepeatButton } from './repeat-button';
@@ -18,8 +19,6 @@ import { PlayPauseButton } from './play-pause-button';
 import { SkipFowardButton } from './skip-foward-button';
 import { ShuffleButton } from './shuffle-button';
 import { Timer } from './timer';
-import { useTrackList } from '../../providers/track-list-provider';
-import { useEffect } from 'react';
 
 export const Player = ({ book, tracks }) => {
     const [playlist, togglePlaylist] = useQueryState('playlist', parseAsShorthandBoolean);

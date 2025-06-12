@@ -27,19 +27,22 @@ import {
     CardHeader,
     CardTitle,
 } from '@/modules/shadcn/ui/card';
+import { useLocalStorage } from '@/modules/core/hooks/use-local-storage';
+import { tokenEncode } from '@/modules/core/helpers/crypto';
 
 const loginMutation = ({ onSuccess }) => {
     return {
         onSuccess,
         mutationFn: async credentials => {
             const user = await loginWithEmail(credentials);
-            return user;
+            return { user, credentials };
         },
     };
 };
 
 const LoginScreen = ({ onLogin }) => {
     const [, navigate] = useLocation();
+    const [, setCrendentials] = useLocalStorage('auth:credentials', null);
 
     const readUser = useMutation(
         readUserMuation({
@@ -52,7 +55,8 @@ const LoginScreen = ({ onLogin }) => {
 
     const loginAction = useMutation(
         loginMutation({
-            onSuccess: user => {
+            onSuccess: ({ user, credentials }) => {
+                setCrendentials(tokenEncode(credentials));
                 readUser.mutate(user);
             },
         }),

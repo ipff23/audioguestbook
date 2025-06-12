@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
+import { cn } from '@/modules/core/helpers/utils';
+
 import { useSettings } from '@/modules/core/hooks/use-settings';
 import { useResize } from '@/modules/core/hooks/use-resize';
 import { useBreakpoint } from '@/modules/core/hooks/use-breakpoint';
-
-import { cn } from '@/modules/core/helpers/utils';
 
 export const BreakpointIndicator = ({ position = undefined }) => {
     const [size, setSize] = useState('');

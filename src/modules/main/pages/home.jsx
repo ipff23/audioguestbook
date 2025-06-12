@@ -1,4 +1,4 @@
-import { Logo } from '../components/logo';
+import { Logo } from '@/modules/main/components/logo';
 
 export const Home = () => {
     return (

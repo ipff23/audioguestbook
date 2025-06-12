@@ -1,6 +1,6 @@
+import { useRef } from 'react';
 import { cn } from '@/modules/core/helpers/utils';
 import { useTrackbar } from '@/modules/core/hooks/use-trackbar';
-import { useRef } from 'react';
 
 export const Trackbar = ({
     minValue = 0,

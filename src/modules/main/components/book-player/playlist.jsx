@@ -6,6 +6,7 @@ import { sortBy } from '@/modules/core/helpers/arrays';
 
 import { useDarkMode } from '@/modules/core/hooks/use-dark-mode';
 import { useBreakpoint } from '@/modules/core/hooks/use-breakpoint';
+import { useTrackList } from '@/modules/main/providers/track-list-provider';
 
 import { ScrollArea } from '@/modules/shadcn/ui/scroll-area';
 
@@ -13,7 +14,6 @@ import { Drawer, DrawerContent } from '@/modules/shadcn/ui/drawer';
 
 import { TrackItem } from './track-item';
 import { MiniPlayer } from './mini-player';
-import { useTrackList } from '../../providers/track-list-provider';
 
 export const Playlist = ({ book, tracks = [] }) => {
     const [theme] = useDarkMode();

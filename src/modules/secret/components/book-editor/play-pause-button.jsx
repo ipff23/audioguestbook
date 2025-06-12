@@ -1,7 +1,8 @@
-import { Button } from '@/modules/shadcn/ui/button';
-import { Pause, Play } from '@/modules/core/components/icons';
 import { Loader2 } from 'lucide-react';
 import { cn } from '@/modules/core/helpers/utils';
+
+import { Button } from '@/modules/shadcn/ui/button';
+import { Pause, Play } from '@/modules/core/components/icons';
 
 export const PlayPauseButton = ({ className, playing, buffering, onPlay, onPause }) => {
     const handleClick = () => {

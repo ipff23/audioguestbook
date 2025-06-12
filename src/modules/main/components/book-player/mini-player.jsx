@@ -1,7 +1,7 @@
-import { cn } from '@/modules/core/helpers/utils';
-import { PlayPauseButton } from './play-pause-button';
 import { useRef } from 'react';
+import { cn } from '@/modules/core/helpers/utils';
 import { useTrackbar } from '@/modules/core/hooks/use-trackbar';
+import { PlayPauseButton } from './play-pause-button';
 
 export const MiniPlayer = ({
     className,

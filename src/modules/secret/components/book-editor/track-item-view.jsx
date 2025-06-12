@@ -1,12 +1,13 @@
 import { Download, GripVertical, Loader2, Trash } from 'lucide-react';
 
 import { cn, styled } from '@/modules/core/helpers/utils';
+import { makeDownloadLink } from '@/modules/core/helpers/strings';
 
 import { Button } from '@/modules/shadcn/ui/button';
 import { Input } from '@/modules/shadcn/ui/input';
-import { TrackPlayer } from './track-player';
 import { Skeleton } from '@/modules/shadcn/ui/skeleton';
-import { makeDownloadLink } from '@/modules/core/helpers/strings';
+
+import { TrackPlayer } from './track-player';
 
 const Wrapper = styled(
     'div',

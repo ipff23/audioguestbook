@@ -23,8 +23,13 @@ import {
 } from '@/modules/shadcn/ui/sidebar';
 
 export const Sidebar = () => {
-    const [location] = useLocation();
+    const [location, navigate] = useLocation();
     const { user } = useAuth();
+
+    const handleLogout = async () => {
+        await logout();
+        navigate('/secret/login');
+    };
 
     return (
         <ShadcnSidebar>
@@ -103,7 +108,12 @@ export const Sidebar = () => {
                             <span className='text-xs text-muted-foreground'>{user.email}</span>
                         </div>
 
-                        <Button variant='ghost' size='icon' className='ml-auto' onClick={logout}>
+                        <Button
+                            variant='ghost'
+                            size='icon'
+                            className='ml-auto'
+                            onClick={handleLogout}
+                        >
                             <LogOut />
                         </Button>
                     </div>

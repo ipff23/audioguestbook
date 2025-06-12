@@ -3,16 +3,16 @@ import { useLocation } from 'wouter';
 import { useMutation } from '@tanstack/react-query';
 
 import { cn } from '@/modules/core/helpers/utils';
+import { useMap } from '@/modules/core/hooks/use-map';
 import { useEmitter, useListener } from '@/modules/core/providers/bus-provider';
 import { JsonDebugger } from '@/modules/core/components/json-debugger';
 
-import { removeMultipleTracksMutation } from '../../actions/track-actions';
-import { removeBookMutation } from '../../actions/book-actions';
+import { removeMultipleTracksMutation } from '@/modules/secret/actions/track-actions';
+import { removeBookMutation } from '@/modules/secret/actions/book-actions';
 
 import { BookCard } from './book-card';
 import { DropZone } from './drop-zone';
 import { TrackListManager } from './track-list-manager';
-import { useMap } from '@/modules/core/hooks/use-map';
 
 const getRemovedItems = (originalItems, modifiedIds) => {
     const originalIds = originalItems.map(i => i.nanoid);

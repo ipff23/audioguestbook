@@ -4,7 +4,7 @@ import { int as randomInt } from '@/modules/core/helpers/random';
 import { useMap } from '@/modules/core/hooks/use-map';
 import { useHistory } from '@/modules/core/hooks/use-history';
 import { useEventListener } from '@/modules/core/hooks/use-event-listener';
-import { useTrack } from '../hooks/use-track';
+import { useTrack } from '@/modules/main/hooks/use-track';
 
 const RepeatState = {
     RepeatAll: 'RepeatAll',
@@ -167,7 +167,7 @@ const useInternalTrackList = () => {
     };
 };
 
-export default function TrackListProvider({ children }) {
+export const TrackListProvider = ({ children }) => {
     const trackList = useInternalTrackList();
     return <TrackListContext.Provider value={trackList}>{children}</TrackListContext.Provider>;
-}
+};

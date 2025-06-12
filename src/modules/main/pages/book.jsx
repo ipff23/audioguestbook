@@ -11,9 +11,9 @@ import { readAllTracksQuery } from '@/modules/secret/actions/track-actions';
 
 import { Loader } from '@/modules/core/components/loader';
 
-import TrackListProvider from '../providers/track-list-provider';
-import { Player } from '../components/book-player/player';
-import { Playlist } from '../components/book-player/playlist';
+import { TrackListProvider } from '@/modules/main/providers/track-list-provider';
+import { Player } from '@/modules/main/components/book-player/player';
+import { Playlist } from '@/modules/main/components/book-player/playlist';
 
 export const Book = ({ params: { id } }) => {
     const [theme] = useDarkMode();

@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 
 import { useEvents } from '@/modules/core/providers/bus-provider';
+import { saveTrackMutation } from '@/modules/secret/actions/track-actions';
 
-import { saveTrackMutation } from '../../actions/track-actions';
 import { TrackItemView } from './track-item-view';
 
 export const TrackItemManager = ({

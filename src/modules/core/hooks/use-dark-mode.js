@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useLocalStorage } from './use-local-storage';
+import { useLocalStorage } from '@/modules/core/hooks/use-local-storage';
 
 export const useDarkMode = () => {
     const getSystemTheme = () =>
