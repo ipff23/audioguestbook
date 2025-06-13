@@ -13,6 +13,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 import { db, storage } from '@/modules/core/services/firebase';
 import { getFileSha1 } from '@/modules/core/helpers/utils';
+import { supabase } from '@/modules/core/services/supabase';
 
 export const readAllTracks = async ({ bookId }) => {
     const q = query(collection(db, 'tracks'), where('bookId', '==', bookId));
@@ -115,6 +116,39 @@ export const removeMultipleTracksMutation = ({ ...args } = {}) => {
         ...args,
         mutationFn: async (trackIds = []) => {
             await removeMultipleTracks(trackIds);
+        },
+    };
+};
+
+export const syncTracks = async ({ bookId }) => {
+    const q = query(collection(db, 'tracks'), where('bookId', '==', bookId));
+    const querySnapshot = await getDocs(q);
+
+    const updates = querySnapshot.docs.map(async doc => {
+        const data = doc.data();
+        const [hash] = data.name.split('.');
+
+        const { data: supaData } = await supabase
+            .from('tracks')
+            .select('name, index')
+            .eq('hash', hash)
+            .single();
+
+        if (!supaData) return;
+        await updateDoc(doc.ref, {
+            name: supaData.name,
+            index: supaData.index,
+        });
+    });
+
+    await Promise.all(updates);
+};
+
+export const syncTracksMutation = ({ ...args } = {}) => {
+    return {
+        ...args,
+        mutationFn: async ({ bookId }) => {
+            await syncTracks({ bookId });
         },
     };
 };

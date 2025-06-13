@@ -9,6 +9,8 @@ import { parseTimestamp } from '@/modules/core/helpers/dates';
 import { Button } from '@/modules/shadcn/ui/button';
 import { Separator } from '@/modules/shadcn/ui/separator';
 import { Popover, PopoverContent, PopoverTrigger } from '@/modules/shadcn/ui/popover';
+import { useSettings } from '@/modules/core/hooks/use-settings';
+import { SyncTracksButton } from './sync-tracks-button';
 
 export const BookCard = ({
     className,
@@ -19,6 +21,7 @@ export const BookCard = ({
     onRestore,
     onDelete,
 }) => {
+    const [debug] = useSettings('settings:debug', false);
     const [needsToConfirmDelete, setNeedsToConfirmDelete] = useState(false);
 
     return (
@@ -40,7 +43,7 @@ export const BookCard = ({
                             'hover:bg-blue-300',
                             'dark:bg-blue-800 dark:text-blue-200 dark:hover:bg-blue-700',
                         )}
-                        href={`/book/${book.id}/${keyCase(book.name)}`}
+                        href={`/book/${book.id}/${keyCase(book.name)}?playlist`}
                         target='_blank'
                         rel='noopener noreferrer'
                     >
@@ -84,6 +87,13 @@ export const BookCard = ({
                     </Button>
                 </PopoverContent>
             </Popover>
+
+            {debug && (
+                <>
+                    <Separator />
+                    <SyncTracksButton className='w-full' bookId={book.id} />
+                </>
+            )}
         </div>
     );
 };

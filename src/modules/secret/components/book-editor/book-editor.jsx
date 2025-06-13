@@ -102,7 +102,7 @@ export const BookEditor = ({ className, book, tracks = [] }) => {
             )}
         >
             <BookCard
-                className='[grid-area:side] border-r'
+                className='fixed [grid-area:side] border-r'
                 book={book}
                 isSaving={saving}
                 isRemoving={removeBook.isPending}

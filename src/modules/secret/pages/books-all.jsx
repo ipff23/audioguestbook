@@ -11,11 +11,14 @@ import { BookCreate, useBookCreateDialogController } from '@/modules/secret/dial
 
 import { Button } from '@/modules/shadcn/ui/button';
 import { Skeleton } from '@/modules/shadcn/ui/skeleton';
+import { keyCase } from '@/modules/core/helpers/strings';
+import { sortBy } from '@/modules/core/helpers/arrays';
 
 export const BooksAll = () => {
     const [, showCreateDialog] = useBookCreateDialogController();
 
     const { data: books = [], isLoading } = useQuery(readAllBooksQuery());
+    const sortedBooks = sortBy(books, 'date', 'desc');
 
     return (
         <WithAuth>
@@ -35,7 +38,7 @@ export const BooksAll = () => {
                 {isLoading && <Skeleton className='h-48 w-full' />}
 
                 <div className='flex flex-wrap gap-4 p-4'>
-                    {books.map(book => (
+                    {sortedBooks.map(book => (
                         <article
                             key={book.id}
                             className='group relative overflow-hidden rounded-lg border'
@@ -47,7 +50,10 @@ export const BooksAll = () => {
                                 />
                                 <div className='absolute top-2 right-2 flex gap-2'>
                                     <Button variant='secondary' size='icon' asChild>
-                                        <a href={`/book/${book.id}`} target='_blank'>
+                                        <a
+                                            href={`/book/${book.id}/${keyCase(book.name)}?playlist`}
+                                            target='_blank'
+                                        >
                                             <Eye />
                                         </a>
                                     </Button>

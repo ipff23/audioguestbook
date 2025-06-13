@@ -8,6 +8,7 @@ import { BookEditor } from '@/modules/secret/components/book-editor/book-editor'
 
 import { Skeleton } from '@/modules/shadcn/ui/skeleton';
 import { readAllTracksQuery } from '../actions/track-actions';
+import { sortBy } from '@/modules/core/helpers/arrays';
 
 export const BooksEdit = ({ params: { id } }) => {
     const { data: book, isLoading: bookLoading } = useQuery(readSingleBookQuery({ id }));
@@ -25,10 +26,12 @@ export const BooksEdit = ({ params: { id } }) => {
         );
     }
 
+    const sortedTracks = sortBy(tracks, 'index');
+
     return (
         <WithAuth>
             <Layout title='Editar Book'>
-                <BookEditor book={book} tracks={tracks} />
+                <BookEditor book={book} tracks={sortedTracks} />
             </Layout>
         </WithAuth>
     );
